@@ -11,9 +11,14 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "findcolor",
-            dependencies: []),
+            dependencies: []
+        ),
         .testTarget(
             name: "findcolorTests",
-            dependencies: ["findcolor"]),
+            dependencies: ["findcolor"],
+            resources: [
+                .copy("Resources")
+            ]
+        ),
     ]
 )
