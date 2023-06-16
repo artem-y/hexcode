@@ -2,10 +2,7 @@ import XCTest
 @testable import findcolor
 
 final class findcolorTests: XCTestCase {
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
+    func test_helloWorld() throws {
         XCTAssertEqual(findcolor().text, "Hello, World!")
     }
 }
