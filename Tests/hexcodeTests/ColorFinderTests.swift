@@ -13,7 +13,7 @@ final class ColorFinderTests: XCTestCase {
 
     // MARK: - Test find hex with hash
 
-    func test_findHexWithHash_inColorSetsWithSingleExpectedColor_findsExpectedColor() {
+    func test_find_hexWithHash_inColorSetsWithSingleExpectedColor_findsExpectedColor() {
         // Given
         let sut = SUT()
 
@@ -24,7 +24,7 @@ final class ColorFinderTests: XCTestCase {
         XCTAssertEqual(colors, [.whiteUniversalSingularColorSet])
     }
 
-    func test_findHexWithHash_inEmptyArray_findsNothing() {
+    func test_find_hexWithHash_inEmptyArray_findsNothing() {
         // Given
         let sut = SUT()
 
@@ -35,7 +35,7 @@ final class ColorFinderTests: XCTestCase {
         XCTAssert(colors.isEmpty)
     }
 
-    func test_findHexWithHash_inColorSetsWithoutExpectedColor_findsNothing() {
+    func test_find_hexWithHash_inColorSetsWithoutExpectedColor_findsNothing() {
         // Given
         let sut = SUT()
 
@@ -48,7 +48,7 @@ final class ColorFinderTests: XCTestCase {
 
     // MARK: - Test find trimmed hex
 
-    func test_findTrimmedHex_inColorSetsWithSingleExpectedColor_findsExpectedColor() {
+    func test_find_trimmedHex_inColorSetsWithSingleExpectedColor_findsExpectedColor() {
         // Given
         let sut = SUT()
 
@@ -59,7 +59,7 @@ final class ColorFinderTests: XCTestCase {
         XCTAssertEqual(colors, [.whiteUniversalSingularColorSet])
     }
 
-    func test_findTrimmedHex_inEmptyArray_findsNothing() {
+    func test_find_trimmedHex_inEmptyArray_findsNothing() {
         // Given
         let sut = SUT()
 
@@ -70,7 +70,7 @@ final class ColorFinderTests: XCTestCase {
         XCTAssert(colors.isEmpty)
     }
 
-    func test_findTrimmedHex_inColorSetsWithoutExpectedColor_findsNothing() {
+    func test_find_trimmedHex_inColorSetsWithoutExpectedColor_findsNothing() {
         // Given
         let sut = SUT()
 
