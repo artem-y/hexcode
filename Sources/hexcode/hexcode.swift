@@ -1,4 +1,4 @@
 @main
-public struct findcolor {
+public struct hexcode {
     public static func main() {}
 }
