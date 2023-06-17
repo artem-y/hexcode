@@ -17,13 +17,24 @@ struct ColorAsset: Decodable, Equatable {
 
         struct Components: Decodable, Equatable {
             var alpha: String
-            var blue: String
-            var green: String
             var red: String
+            var green: String
+            var blue: String
         }
 
         var colorSpace: ColorSpace
         var components: Components
+
+        var rgbHex: String {
+            [
+                components.red,
+                components.green,
+                components.blue
+            ]
+                .reduce("", {
+                    $0 + $1.replacingOccurrences(of: "0x", with: "")
+                })
+        }
 
         enum CodingKeys: String, CodingKey {
             case components
