@@ -18,10 +18,10 @@ final class ColorFinderTests: XCTestCase {
         let sut = SUT()
 
         // When
-        let colors = sut.find("#FFFFFF", in: [.whiteUniversalSingularColorSet])
+        let colors = sut.find("#FFFFFF", in: [.whiteColorHex])
 
         // Then
-        XCTAssertEqual(colors, [.whiteUniversalSingularColorSet])
+        XCTAssertEqual(colors, ["whiteColorHex"])
     }
 
     func test_find_hexWithHash_inEmptyArray_findsNothing() {
@@ -40,7 +40,7 @@ final class ColorFinderTests: XCTestCase {
         let sut = SUT()
 
         // When
-        let colors = sut.find("#000000", in: [.whiteUniversalSingularColorSet])
+        let colors = sut.find("#000000", in: [.whiteColorHex])
 
         // Then
         XCTAssert(colors.isEmpty)
@@ -53,10 +53,10 @@ final class ColorFinderTests: XCTestCase {
         let sut = SUT()
 
         // When
-        let colors = sut.find("FFFFFF", in: [.whiteUniversalSingularColorSet])
+        let colors = sut.find("FFFFFF", in: [.whiteColorHex])
 
         // Then
-        XCTAssertEqual(colors, [.whiteUniversalSingularColorSet])
+        XCTAssertEqual(colors, ["whiteColorHex"])
     }
 
     func test_find_trimmedHex_inEmptyArray_findsNothing() {
@@ -75,7 +75,7 @@ final class ColorFinderTests: XCTestCase {
         let sut = SUT()
 
         // When
-        let colors = sut.find("000000", in: [.whiteUniversalSingularColorSet])
+        let colors = sut.find("000000", in: [.whiteColorHex])
 
         // Then
         XCTAssert(colors.isEmpty)

@@ -8,12 +8,17 @@
 import Foundation
 
 final class ColorFinder {
-    func find(_ hex: String, in colorSets: [ColorSet]) -> [ColorSet] {
+    func find(_ hex: String, in colorSets: [NamedColorSet]) -> [String] {
         let hex = hex.trimmingCharacters(in: ["#"])
-        return colorSets.filter { colorSet in
-            colorSet.colors
-                .map(\.color.rgbHex)
-                .contains(hex)
-        }
+        return colorSets
+            .compactMap { namedSet in
+                if namedSet.colorSet.colors
+                    .map(\.color.rgbHex)
+                    .contains(hex) {
+                    return namedSet.name
+                } else {
+                    return nil
+                }
+            }
     }
 }

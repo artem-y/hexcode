@@ -8,40 +8,15 @@
 import Foundation
 
 struct ColorAsset: Decodable, Equatable {
-    struct Color: Decodable, Equatable {
-        enum ColorSpace: String, Decodable {
-            case srgb
-            case extendedSrgb = "extended-srgb"
-            case extendedLinearSrgb = "extended-linear-srgb"
-        }
+    var color: Color
+    var idiom: Idiom
+    var appearances: [Appearance]?
+    var subtype: String?
+}
 
-        struct Components: Decodable, Equatable {
-            var alpha: String
-            var red: String
-            var green: String
-            var blue: String
-        }
+// MARK: - ColorAsset.Idiom
 
-        var colorSpace: ColorSpace
-        var components: Components
-
-        var rgbHex: String {
-            [
-                components.red,
-                components.green,
-                components.blue
-            ]
-                .reduce("", {
-                    $0 + $1.replacingOccurrences(of: "0x", with: "")
-                })
-        }
-
-        enum CodingKeys: String, CodingKey {
-            case components
-            case colorSpace = "color-space"
-        }
-    }
-
+extension ColorAsset {
     enum Idiom: String, Decodable {
         case universal
         case iPhone = "iphone"
@@ -51,14 +26,58 @@ struct ColorAsset: Decodable, Equatable {
         case watch
         case tv
     }
+}
 
+// MARK: - ColorAsset.Appearance
+
+extension ColorAsset {
     struct Appearance: Decodable, Equatable {
         var appearance: String
         var value: String
     }
+}
 
-    var color: Color
-    var idiom: Idiom
-    var appearances: [Appearance]?
-    var subtype: String?
+// MARK: - ColorAsset.Color
+
+extension ColorAsset {
+    struct Color: Decodable, Equatable {
+        var colorSpace: ColorSpace
+        var components: Components
+
+        var rgbHex: String {
+            [
+                components.red,
+                components.green,
+                components.blue
+            ]
+                .reduce("", +)
+                .replacingOccurrences(of: "0x", with: "")
+        }
+
+        enum CodingKeys: String, CodingKey {
+            case components
+            case colorSpace = "color-space"
+        }
+    }
+}
+
+// MARK: - ColorAsset.Color.ColorSpace
+
+extension ColorAsset.Color {
+    enum ColorSpace: String, Decodable {
+        case srgb
+        case extendedSrgb = "extended-srgb"
+        case extendedLinearSrgb = "extended-linear-srgb"
+    }
+}
+
+// MARK: - ColorAsset.Color.Components
+
+extension ColorAsset.Color {
+    struct Components: Decodable, Equatable {
+        var alpha: String
+        var red: String
+        var green: String
+        var blue: String
+    }
 }
