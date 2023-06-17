@@ -4,18 +4,18 @@
 import PackageDescription
 
 let package = Package(
-    name: "findcolor",
+    name: "hexcode",
     platforms: [
         .macOS(.v12),
     ],
     targets: [
         .executableTarget(
-            name: "findcolor",
+            name: "hexcode",
             dependencies: []
         ),
         .testTarget(
-            name: "findcolorTests",
-            dependencies: ["findcolor"],
+            name: "hexcodeTests",
+            dependencies: ["hexcode"],
             resources: [
                 .copy("Resources")
             ]

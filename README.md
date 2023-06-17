@@ -1,2 +1,2 @@
-# findcolor
-Find the name of color asset in Xcode project, if it already exists
+# heXcode
+Find Xcode color asset by its hex value

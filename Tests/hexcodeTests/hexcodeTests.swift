@@ -1,8 +1,8 @@
 import Foundation
 import XCTest
-@testable import findcolor
+@testable import hexcode
 
-final class findcolorTests: XCTestCase {
+final class hexcodeTests: XCTestCase {
     private let whiteColorString = """
           {
             "colors" : [
