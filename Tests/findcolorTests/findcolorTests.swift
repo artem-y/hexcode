@@ -42,15 +42,13 @@ final class findcolorTests: XCTestCase {
         XCTAssertEqual(colorSet, .whiteUniversalSingularColorSet)
     }
 
-    func decodeColorSet_fromFile_succeeds() throws {
+    func test_decodeColorSet_fromFile_succeeds() throws {
         // Given
-        let filePath = try XCTUnwrap(
-            Bundle.main.url(
-                forResource: "Assets.xcassets/whiteColor.colorset/Contents",
-                withExtension: "json"
-            )
+        let resourcePath = try XCTUnwrap(Bundle.module.resourcePath)
+        let filePath = "\(resourcePath)/Resources/Assets.xcassets/whiteColorHex.colorset/Contents.json"
+        let colorData = try XCTUnwrap(
+            FileManager.default.contents(atPath: filePath)
         )
-        let colorData = try Data(contentsOf: filePath)
 
         // When
         let colorSet: ColorSet = try JSONDecoder().decode(
