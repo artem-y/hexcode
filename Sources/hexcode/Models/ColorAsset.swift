@@ -45,11 +45,16 @@ extension ColorAsset {
         var components: Components
 
         var rgbHex: String {
-            [
+            let rgb = [
                 components.red,
                 components.green,
                 components.blue
             ]
+            guard rgb.allSatisfy({
+                $0.hasPrefix("0x")
+            }) else { return "" }
+
+            return rgb
                 .reduce("", +)
                 .replacingOccurrences(of: "0x", with: "")
         }

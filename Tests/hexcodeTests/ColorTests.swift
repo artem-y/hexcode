@@ -29,4 +29,23 @@ final class ColorTests: XCTestCase {
         // Then
         XCTAssertEqual(rgbHex, "F6FA0C")
     }
+
+    func test_rgbHex_withNumericComponents_isEmpty() {
+        // Given
+        let sut = SUT(
+            colorSpace: .srgb,
+            components: .init(
+                alpha: "1",
+                red: "12",
+                green: "34",
+                blue: "56"
+            )
+        )
+
+        // When
+        let rgbHex = sut.rgbHex
+
+        // Then
+        XCTAssert(rgbHex.isEmpty)
+    }
 }
