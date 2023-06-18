@@ -28,4 +28,25 @@ extension ColorSet {
             version: 1
         )
     )
+
+    static let blackUniversalSingularColorSet: Self = .init(
+        colors: [
+            .init(
+                color: .init(
+                    colorSpace: .srgb,
+                    components: .init(
+                        alpha: "1.000",
+                        red: "0x00",
+                        green: "0x00",
+                        blue: "0x00"
+                    )
+                ),
+                idiom: .universal
+            )
+        ],
+        info: .init(
+            author: "xcode",
+            version: 1
+        )
+    )
 }

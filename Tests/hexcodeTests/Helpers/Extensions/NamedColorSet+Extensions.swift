@@ -12,4 +12,9 @@ extension NamedColorSet {
         name: "whiteColorHex",
         colorSet: .whiteUniversalSingularColorSet
     )
+
+    static let blackColorHex: Self = NamedColorSet(
+        name: "blackColorHex",
+        colorSet: .blackUniversalSingularColorSet
+    )
 }

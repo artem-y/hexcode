@@ -18,7 +18,7 @@ final class ColorFinderTests: XCTestCase {
         let sut = SUT()
 
         // When
-        let colors = sut.find("#FFFFFF", in: [.whiteColorHex])
+        let colors = sut.find("#FFFFFF", in: [.blackColorHex, .whiteColorHex])
 
         // Then
         XCTAssertEqual(colors, ["whiteColorHex"])
@@ -53,7 +53,7 @@ final class ColorFinderTests: XCTestCase {
         let sut = SUT()
 
         // When
-        let colors = sut.find("FFFFFF", in: [.whiteColorHex])
+        let colors = sut.find("FFFFFF", in: [.blackColorHex, .whiteColorHex])
 
         // Then
         XCTAssertEqual(colors, ["whiteColorHex"])
