@@ -24,6 +24,22 @@ final class ColorFinderTests: XCTestCase {
         XCTAssertEqual(colors, ["whiteColorHex"])
     }
 
+    func test_find_hexWithHash_inColorSetsWithMultipleMatches_findsExpectedColor() {
+        // Given
+        let sut = SUT()
+        let duplicatedWhite = NamedColorSet(
+            name: "duplicatedWhite",
+            colorSet: .whiteUniversalSingularColorSet
+        )
+        let colorSets = [.whiteColorHex, .blackColorHex, duplicatedWhite]
+
+        // When
+        let colors = sut.find("#FFFFFF", in: colorSets)
+
+        // Then
+        XCTAssertEqual(colors, ["whiteColorHex", "duplicatedWhite"])
+    }
+
     func test_find_hexWithHash_inEmptyArray_findsNothing() {
         // Given
         let sut = SUT()
@@ -57,6 +73,22 @@ final class ColorFinderTests: XCTestCase {
 
         // Then
         XCTAssertEqual(colors, ["whiteColorHex"])
+    }
+
+    func test_find_trimmedHex_inColorSetsWithMultipleMatches_findsExpectedColor() {
+        // Given
+        let sut = SUT()
+        let duplicatedWhite = NamedColorSet(
+            name: "duplicatedWhite",
+            colorSet: .whiteUniversalSingularColorSet
+        )
+        let colorSets = [.whiteColorHex, .blackColorHex, duplicatedWhite]
+
+        // When
+        let colors = sut.find("FFFFFF", in: colorSets)
+
+        // Then
+        XCTAssertEqual(colors, ["whiteColorHex", "duplicatedWhite"])
     }
 
     func test_find_trimmedHex_inEmptyArray_findsNothing() {
