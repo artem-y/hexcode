@@ -12,13 +12,10 @@ final class ColorFinder {
         let hex = hex.trimmingCharacters(in: ["#"])
         return colorSets
             .compactMap { namedSet in
-                if namedSet.colorSet.colors
+                guard namedSet.colorSet.colors
                     .map(\.color.rgbHex)
-                    .contains(hex) {
-                    return namedSet.name
-                } else {
-                    return nil
-                }
+                    .contains(hex) else { return nil }
+                return namedSet.name
             }
     }
 }
