@@ -1,4 +1,3 @@
-import Foundation
 import XCTest
 @testable import hexcode
 
@@ -59,29 +58,4 @@ final class hexcodeTests: XCTestCase {
         // Then
         XCTAssertEqual(colorSet, .whiteUniversalSingularColorSet)
     }
-}
-
-// MARK: - Helpers
-
-fileprivate extension ColorSet {
-    static let whiteUniversalSingularColorSet: Self = .init(
-        colors: [
-            .init(
-                color: .init(
-                    colorSpace: .srgb,
-                    components: .init(
-                        alpha: "1.000",
-                        blue: "0xFF",
-                        green: "0xFF",
-                        red: "0xFF"
-                    )
-                ),
-                idiom: .universal
-            )
-        ],
-        info: .init(
-            author: "xcode",
-            version: 1
-        )
-    )
 }
