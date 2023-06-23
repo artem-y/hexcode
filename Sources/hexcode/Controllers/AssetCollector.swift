@@ -39,8 +39,6 @@ extension AssetCollector {
 
 extension AssetCollector {
     private func findColorSets(at paths: [String]) -> [NamedColorSet] {
-        guard !paths.isEmpty else { return [] }
-
         var colorSets: [NamedColorSet] = []
         var subPaths: [String] = []
 
