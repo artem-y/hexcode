@@ -66,4 +66,16 @@ final class AssetCollectorTests: XCTestCase {
             XCTAssertEqual(error, .notADirectory)
         }
     }
+
+    func test_collectAssets_inCatalogWithMultipleSubdirectories_findsAllAssets() throws {
+        // Given
+        let sut = SUT()
+        let assetCatalogPath = try XCTUnwrap(Bundle.module.resourcePath) + "/Resources/AssetsInSubdirectories.xcassets"
+
+        // When
+        let assets = try sut.collectAssets(in: assetCatalogPath)
+
+        // Then
+        XCTAssertEqual(assets, [.blueColorHex, .greenColorHex, .redColorHex])
+    }
 }

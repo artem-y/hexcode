@@ -29,7 +29,7 @@ final class ColorFinderTests: XCTestCase {
         let sut = SUT()
         let duplicatedWhite = NamedColorSet(
             name: "duplicatedWhite",
-            colorSet: .whiteUniversalSingularColorSet
+            colorSet: .Universal.Singular.white
         )
         let colorSets = [.whiteColorHex, .blackColorHex, duplicatedWhite]
 
@@ -80,7 +80,7 @@ final class ColorFinderTests: XCTestCase {
         let sut = SUT()
         let duplicatedWhite = NamedColorSet(
             name: "duplicatedWhite",
-            colorSet: .whiteUniversalSingularColorSet
+            colorSet: .Universal.Singular.white
         )
         let colorSets = [.whiteColorHex, .blackColorHex, duplicatedWhite]
 
