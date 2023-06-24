@@ -38,7 +38,7 @@ final class hexcodeTests: XCTestCase {
         )
 
         // Then
-        XCTAssertEqual(colorSet, .whiteUniversalSingularColorSet)
+        XCTAssertEqual(colorSet, .Universal.Singular.white)
     }
 
     func test_decodeColorSet_fromFile_succeeds() throws {
@@ -56,6 +56,6 @@ final class hexcodeTests: XCTestCase {
         )
 
         // Then
-        XCTAssertEqual(colorSet, .whiteUniversalSingularColorSet)
+        XCTAssertEqual(colorSet, .Universal.Singular.white)
     }
 }

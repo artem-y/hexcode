@@ -10,17 +10,39 @@
 // MARK: - Stubs
 
 extension ColorSet {
-    static let whiteUniversalSingularColorSet: Self = makeFromComponents(
-        red: "0xFF",
-        green: "0xFF",
-        blue: "0xFF"
-    )
+    enum Universal {
+        enum Singular {
+            static let white: ColorSet = makeFromComponents(
+                red: "0xFF",
+                green: "0xFF",
+                blue: "0xFF"
+            )
 
-    static let blackUniversalSingularColorSet: Self = makeFromComponents(
-        red: "0x00",
-        green: "0x00",
-        blue: "0x00"
-    )
+            static let black: ColorSet = makeFromComponents(
+                red: "0x00",
+                green: "0x00",
+                blue: "0x00"
+            )
+
+            static let red: ColorSet = makeFromComponents(
+                red: "0xFF",
+                green: "0x00",
+                blue: "0x00"
+            )
+
+            static let green: ColorSet = makeFromComponents(
+                red: "0x00",
+                green: "0xFF",
+                blue: "0x00"
+            )
+
+            static let blue: ColorSet = makeFromComponents(
+                red: "0x00",
+                green: "0x00",
+                blue: "0xFF"
+            )
+        }
+    }
 }
 
 // MARK: - Helpers
