@@ -34,9 +34,16 @@ final class AssetCollector: AssetCollecting {
 // MARK: - Error
 
 extension AssetCollector {
-    enum Error: Swift.Error, Equatable {
+    enum Error: Swift.Error, Equatable, CustomStringConvertible {
         case directoryNotFound
         case notADirectory
+
+        var description: String {
+            switch self {
+            case .directoryNotFound: return "Directory not found"
+            case .notADirectory: return "Not a directory"
+            }
+        }
     }
 }
 
