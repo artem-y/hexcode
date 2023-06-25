@@ -7,7 +7,11 @@
 
 import Foundation
 
-final class ColorFinder {
+protocol ColorFinding {
+    func find(_ hex: String, in colorSets: [NamedColorSet]) -> [String]
+}
+
+final class ColorFinder: ColorFinding {
     func find(_ hex: String, in colorSets: [NamedColorSet]) -> [String] {
         let hex = hex.trimmingCharacters(in: ["#"])
         return colorSets

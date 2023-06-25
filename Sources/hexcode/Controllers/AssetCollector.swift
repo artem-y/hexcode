@@ -7,8 +7,13 @@
 
 import Foundation
 
-final class AssetCollector {
-    private let fileManager = FileManager.default
+protocol AssetCollecting {
+    var fileManager: FileManager { get set }
+    func collectAssets(in directory: String) throws -> [NamedColorSet]
+}
+
+final class AssetCollector: AssetCollecting {
+    var fileManager: FileManager = .default
 
     func collectAssets(in directory: String) throws -> [NamedColorSet] {
         var isDirectory: ObjCBool = false
