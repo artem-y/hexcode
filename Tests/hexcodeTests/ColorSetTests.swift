@@ -1,7 +1,7 @@
 import XCTest
 @testable import hexcode
 
-final class hexcodeTests: XCTestCase {
+final class ColorSetTests: XCTestCase {
 
     // MARK: - Tests
 
