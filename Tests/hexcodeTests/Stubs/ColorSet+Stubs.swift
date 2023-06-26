@@ -12,35 +12,11 @@
 extension ColorSet {
     enum Universal {
         enum Singular {
-            static let white: ColorSet = makeFromComponents(
-                red: "0xFF",
-                green: "0xFF",
-                blue: "0xFF"
-            )
-
-            static let black: ColorSet = makeFromComponents(
-                red: "0x00",
-                green: "0x00",
-                blue: "0x00"
-            )
-
-            static let red: ColorSet = makeFromComponents(
-                red: "0xFF",
-                green: "0x00",
-                blue: "0x00"
-            )
-
-            static let green: ColorSet = makeFromComponents(
-                red: "0x00",
-                green: "0xFF",
-                blue: "0x00"
-            )
-
-            static let blue: ColorSet = makeFromComponents(
-                red: "0x00",
-                green: "0x00",
-                blue: "0xFF"
-            )
+            static let white = makeColorSet(red: "0xFF", green: "0xFF", blue: "0xFF")
+            static let black = makeColorSet(red: "0x00", green: "0x00", blue: "0x00")
+            static let red = makeColorSet(red: "0xFF", green: "0x00", blue: "0x00")
+            static let green = makeColorSet(red: "0x00", green: "0xFF", blue: "0x00")
+            static let blue = makeColorSet(red: "0x00", green: "0x00", blue: "0xFF")
         }
     }
 }
@@ -48,7 +24,7 @@ extension ColorSet {
 // MARK: - Helpers
 
 extension ColorSet {
-    static func makeFromComponents(red: String, green: String, blue: String) -> Self {
+    private static func makeColorSet(red: String, green: String, blue: String) -> Self {
         .init(
             colors: [
                 .init(

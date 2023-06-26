@@ -7,8 +7,13 @@
 
 import Foundation
 
-final class AssetCollector {
-    private let fileManager = FileManager.default
+protocol AssetCollecting {
+    var fileManager: FileManager { get set }
+    func collectAssets(in directory: String) throws -> [NamedColorSet]
+}
+
+final class AssetCollector: AssetCollecting {
+    var fileManager: FileManager = .default
 
     func collectAssets(in directory: String) throws -> [NamedColorSet] {
         var isDirectory: ObjCBool = false
@@ -29,9 +34,16 @@ final class AssetCollector {
 // MARK: - Error
 
 extension AssetCollector {
-    enum Error: Swift.Error, Equatable {
+    enum Error: Swift.Error, Equatable, CustomStringConvertible {
         case directoryNotFound
         case notADirectory
+
+        var description: String {
+            switch self {
+            case .directoryNotFound: return "Directory not found"
+            case .notADirectory: return "Not a directory"
+            }
+        }
     }
 }
 
