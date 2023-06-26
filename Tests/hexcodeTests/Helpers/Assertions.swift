@@ -21,13 +21,12 @@ func Assert<T, E: Error & Equatable>(
 
     XCTAssertThrowsError(
         try expression(),
-        "Failed to throw error",
         file: file,
         line: line
     ) { actualError in
         guard let actualError = actualError as? E else {
             XCTFail(
-                "Threw wrong kind of error, expected \(E.self)",
+                "Threw wrong type of error, expected: \(E.self)",
                 file: file,
                 line: line
             )

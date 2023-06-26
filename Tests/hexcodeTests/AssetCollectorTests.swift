@@ -7,7 +7,6 @@
 
 @testable import hexcode
 import XCTest
-import Foundation
 
 final class AssetCollectorTests: XCTestCase {
     typealias SUT = AssetCollector
@@ -64,15 +63,10 @@ final class AssetCollectorTests: XCTestCase {
         let path = "/nonExistentDirectory"
         mocks.fileManager.results.fileExistsAtPath[path] = nil
 
-        XCTAssertThrowsError(
-            // When
-            _ = try sut.collectAssets(in: path)
-        ) { error in
-            let error = error as? SUT.Error
-
-            // Then
-            XCTAssertEqual(error, .directoryNotFound)
-        }
+        Assert(
+            try sut.collectAssets(in: path), // When
+            throwsError: SUT.Error.directoryNotFound // Then
+        )
     }
 
     func test_collectAssets_atPathThatIsFile_throwsNotADirectoryError() throws {
@@ -81,15 +75,10 @@ final class AssetCollectorTests: XCTestCase {
         let filePath = "/someFile"
         mocks.fileManager.results.fileExistsAtPath[filePath] = .file
 
-        XCTAssertThrowsError(
-            // When
-            _ = try sut.collectAssets(in: filePath)
-        ) { error in
-            let error = error as? SUT.Error
-
-            // Then
-            XCTAssertEqual(error, .notADirectory)
-        }
+        Assert(
+            try sut.collectAssets(in: filePath), // When
+            throwsError: SUT.Error.notADirectory // Then
+        )
     }
 
     func test_collectAssets_inCatalogWithMultipleSubdirectories_findsAllAssets() throws {
