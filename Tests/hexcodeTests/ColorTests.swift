@@ -67,4 +67,42 @@ final class ColorTests: XCTestCase {
         // Then
         AssertEmpty(rgbHex)
     }
+
+    func test_rgbHex_withDifferentTypesOfComponents_returnsEmptyString() {
+        // Given
+        let sut = SUT(
+            colorSpace: .srgb,
+            components: .init(
+                alpha: "1",
+                red: "0x00",
+                green: "15",
+                blue: "0xFF"
+            )
+        )
+
+        // When
+        let rgbHex = sut.rgbHex
+
+        // Then
+        AssertEmpty(rgbHex)
+    }
+
+    func test_rgbHex_withHexPrefixWithoutValue_returnsEmptyString() {
+        // Given
+        let sut = SUT(
+            colorSpace: .srgb,
+            components: .init(
+                alpha: "1",
+                red: "0x00",
+                green: "0xFF",
+                blue: "0x"
+            )
+        )
+
+        // When
+        let rgbHex = sut.rgbHex
+
+        // Then
+        AssertEmpty(rgbHex)
+    }
 }
