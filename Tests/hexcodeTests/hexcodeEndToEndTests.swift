@@ -75,6 +75,30 @@ final class hexcodeEndToEndTests: XCTestCase {
         XCTAssertEqual(output, "blueColorHex\n")
         XCTAssertEqual(error, "")
     }
+
+    func test_hexcode_inAssetWithMultipleMatchingAppearances_findsAssetWithMatchingAppearances() throws {
+        // Given
+        let arguments = ["#171717", "--directory=\(resourcePath)/Resources/Assets.xcassets"]
+
+        // When
+        let (output, error) = try runHexcode(arguments: arguments)
+
+        // Then
+        XCTAssertEqual(output, "defaultTextHex (Any, Light)\n")
+        XCTAssertEqual(error, "")
+    }
+
+    func test_hexcode_inAssetWithOneMatchingAppearance_findsAssetWithMatchingAppearance() throws {
+        // Given
+        let arguments = ["#E7E7E7", "--directory=\(resourcePath)/Resources/Assets.xcassets"]
+
+        // When
+        let (output, error) = try runHexcode(arguments: arguments)
+
+        // Then
+        XCTAssertEqual(output, "defaultTextHex (Dark)\n")
+        XCTAssertEqual(error, "")
+    }
 }
 
 // MARK: - Private

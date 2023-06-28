@@ -12,6 +12,7 @@ final class HexcodeAppTests: XCTestCase {
     typealias SUT = HexcodeApp
 
     private var mocks = Mocks()
+    private lazy var sut = makeSUT()
 
     private let blackHexStub = "#000000"
 
@@ -19,6 +20,7 @@ final class HexcodeAppTests: XCTestCase {
 
     override func setUp() {
         mocks = Mocks()
+        sut = makeSUT()
     }
 
     // MARK: - Test init
@@ -43,7 +45,6 @@ final class HexcodeAppTests: XCTestCase {
 
     func test_run_withoutDirectory_runsInCurrentDirectoryFromFileManager() throws {
         // Given
-        let sut = makeSUT()
         let currentDirectory = "/currentDirectory"
         mocks.fileManager.results.currentDirectoryPath = currentDirectory
 
@@ -57,7 +58,6 @@ final class HexcodeAppTests: XCTestCase {
 
     func test_run_inDirectory_runsInProvidedDirectory() throws {
         // Given
-        let sut = makeSUT()
         let searchDirectory = "/searchDirectory"
 
         // When
@@ -69,7 +69,6 @@ final class HexcodeAppTests: XCTestCase {
 
     func test_run_whenAssetCollectorThrowsNotADirectoryError_rethrowsError() throws {
         // Given
-        let sut = makeSUT()
         mocks.assetCollector.results.collectAssets = .failure(AssetCollector.Error.notADirectory)
 
         Assert(
@@ -80,7 +79,6 @@ final class HexcodeAppTests: XCTestCase {
 
     func test_run_whenAssetCollectorThrowsDirectoryNotFound_rethrowsError() throws {
         // Given
-        let sut = makeSUT()
         mocks.assetCollector.results.collectAssets = .failure(AssetCollector.Error.directoryNotFound)
 
         Assert(
@@ -91,7 +89,6 @@ final class HexcodeAppTests: XCTestCase {
 
     func test_run_whenAssetCollectorThrowsNotADirectoryError_doesNotLookForColors() {
         // Given
-        let sut = makeSUT()
         mocks.assetCollector.results.collectAssets = .failure(AssetCollector.Error.notADirectory)
 
         // When
@@ -104,7 +101,6 @@ final class HexcodeAppTests: XCTestCase {
 
     func test_run_whenAssetCollectorThrowsDirectoryNotFound_doesNotLookForColors() {
         // Given
-        let sut = makeSUT()
         mocks.assetCollector.results.collectAssets = .failure(AssetCollector.Error.directoryNotFound)
 
         // When
@@ -117,7 +113,6 @@ final class HexcodeAppTests: XCTestCase {
 
     func test_run_whenCollectedAssets_callsColorFinderWithCollectedAssets() throws {
         // Given
-        let sut = makeSUT()
         let expectedColorSets: [NamedColorSet] = [
             .blueColorHex,
             .greenColorHex,
@@ -138,7 +133,6 @@ final class HexcodeAppTests: XCTestCase {
 
     func test_run_whenDidNotCollectAssets_callsColorFinderWithEmptyArray() throws {
         // Given
-        let sut = makeSUT()
         let colorHex = "#F1F2F3"
         mocks.assetCollector.results.collectAssets = .success([])
 
@@ -154,7 +148,6 @@ final class HexcodeAppTests: XCTestCase {
 
     func test_run_whenSingleColorAssetIsFound_outputsAssetName() throws {
         // Given
-        let sut = makeSUT()
         let expectedOutput = "white"
         mocks.colorFinder.results.find = [expectedOutput]
 
@@ -167,7 +160,6 @@ final class HexcodeAppTests: XCTestCase {
 
     func test_run_whenMultipleColorAssetIsFound_outputsAllAssetNames() throws {
         // Given
-        let sut = makeSUT()
         let expectedOutputs = ["red", "green", "blue"]
         mocks.colorFinder.results.find = expectedOutputs
 
@@ -180,7 +172,6 @@ final class HexcodeAppTests: XCTestCase {
 
     func test_run_whenNoColorAssetsFound_outputsNoColorsFoundMessage() throws {
         // Given
-        let sut = makeSUT()
         mocks.colorFinder.results.find = []
 
         // When

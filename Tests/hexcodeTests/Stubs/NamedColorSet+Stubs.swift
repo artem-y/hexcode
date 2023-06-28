@@ -32,4 +32,19 @@ extension NamedColorSet {
         name: "blueColorHex",
         colorSet: .Universal.Singular.blue
     )
+
+    static let sunflowerColorHex: Self = NamedColorSet(
+        name: "sunflowerHex",
+        colorSet: .Universal.Multiple.sunflower
+    )
+
+    static let defaultTextColorHex: Self = NamedColorSet(
+        name: "defaultTextHex",
+        colorSet: .Universal.Multiple.defaultText
+    )
+
+    static let cyanColorHex: Self = NamedColorSet(
+        name: "cyanColorHex",
+        colorSet: .Universal.Multiple.cyan
+    )
 }
