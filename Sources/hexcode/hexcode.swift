@@ -8,6 +8,10 @@ struct hexcode: ParsableCommand {
     @Option
     var directory: String?
 
+    func validate() throws {
+        try ArgumentValidator().validate(colorHex: colorHex)
+    }
+
     func run() throws {
         try HexcodeApp().run(colorHex: colorHex, in: directory)
     }
