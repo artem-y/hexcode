@@ -36,6 +36,15 @@ extension ColorSet {
                 ],
                 info: .default
             )
+
+            static let cyan: ColorSet = .init(
+                colors: [
+                    makeColorAsset(red: "0x00", green: "0xFF", blue: "0xFF"),
+                    makeColorAsset(red: "0x00", green: "0xFF", blue: "0xFF", appearance: "light"),
+                    makeColorAsset(red: "0x00", green: "0xFF", blue: "0xFF", appearance: "dark"),
+                ],
+                info: .default
+            )
         }
     }
 }

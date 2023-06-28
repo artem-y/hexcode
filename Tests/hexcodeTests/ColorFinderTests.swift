@@ -147,4 +147,15 @@ final class ColorFinderTests: XCTestCase {
         // Then
         XCTAssertEqual(colors, ["defaultTextHex (Any, Light)"])
     }
+
+    func test_find_withMultipleAppearances_whenMatchesAllAppearances_addsNothingToName() {
+        // Given
+        let sut = SUT()
+
+        // When
+        let colors = sut.find("#00FFFF", in: [.cyanColorHex])
+
+        // Then
+        XCTAssertEqual(colors, ["cyanColorHex"])
+    }
 }
