@@ -13,7 +13,9 @@ protocol ColorFinding {
 
 final class ColorFinder: ColorFinding {
     func find(_ hex: String, in colorSets: [NamedColorSet]) -> [String] {
-        let hex = hex.trimmingCharacters(in: ["#"])
+        let hex = hex
+            .trimmingCharacters(in: ["#"])
+            .uppercased()
 
         return colorSets
             .compactMap { namedSet in
