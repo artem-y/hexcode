@@ -64,7 +64,7 @@ final class ColorFinderTests: XCTestCase {
 
     func test_find_trimmedHex_inColorSetsWithSingleExpectedColor_findsExpectedColor() {
         // When
-        let colors = sut.find("FFFFFF", in: [.blackColorHex, .whiteColorHex])
+        let colors = sut.find("ffffff", in: [.blackColorHex, .whiteColorHex])
 
         // Then
         XCTAssertEqual(colors, ["whiteColorHex"])
