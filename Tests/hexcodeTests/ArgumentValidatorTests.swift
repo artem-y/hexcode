@@ -21,21 +21,21 @@ final class ArgumentValidatorTests: XCTestCase {
 
     // MARK: - Tests
 
-    func test_validateColorhex_validHex_completesWithNoErrors() {
+    func test_validateColorHex_validHex_completesWithNoErrors() {
         // Then
         XCTAssertNoThrow(
             try sut.validate(colorHex: "FFFFFF") // When
         )
     }
 
-    func test_validateColorhex_validHex_withHexSymbol_completesWithNoErrors() {
+    func test_validateColorHex_validHex_withHexSymbol_completesWithNoErrors() {
         // Then
         XCTAssertNoThrow(
             try sut.validate(colorHex: "#000000") // When
         )
     }
 
-    func test_validateColorhex_whenTooShort_throwsTooShortError() {
+    func test_validateColorHex_whenTooShort_throwsTooShortError() {
         // Then
         Assert(
             try sut.validate(colorHex: "12345"), // When
@@ -43,7 +43,7 @@ final class ArgumentValidatorTests: XCTestCase {
         )
     }
 
-    func test_validateColorhex_whenTooShort_withHexSymbol_throwsTooShortError() {
+    func test_validateColorHex_whenTooShort_withHexSymbol_throwsTooShortError() {
         // Then
         Assert(
             try sut.validate(colorHex: "#12345"), // When
@@ -51,7 +51,7 @@ final class ArgumentValidatorTests: XCTestCase {
         )
     }
 
-    func test_validateColorhex_whenTooLong_throwsTooLongError() {
+    func test_validateColorHex_whenTooLong_throwsTooLongError() {
         // Then
         Assert(
             try sut.validate(colorHex: "1234567"), // When
@@ -59,7 +59,7 @@ final class ArgumentValidatorTests: XCTestCase {
         )
     }
 
-    func test_validateColorhex_whenHasInvalidSymbols_throwsInbalidSymbolsError() {
+    func test_validateColorHex_whenHasInvalidSymbols_throwsInvalidSymbolsError() {
         // Then
         Assert(
             try sut.validate(colorHex: "ABCXYZ"), // When
