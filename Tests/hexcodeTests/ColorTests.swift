@@ -11,7 +11,7 @@ import XCTest
 final class ColorTests: XCTestCase {
     typealias SUT = ColorAsset.Color
 
-    func test_rgbHex_withValidHexComponents_returnsValidHexValue() {
+    func test_rgbHex_withValidHexComponents_returnsValidHex() {
         // Given
         let sut = SUT(
             colorSpace: .srgb,
@@ -30,7 +30,7 @@ final class ColorTests: XCTestCase {
         XCTAssertEqual(rgbHex, "F6FA0C")
     }
 
-    func test_rgbHex_withNumericComponents_isEmpty() {
+    func test_rgbHex_withIntegerComponents_returnsConvertedHex() {
         // Given
         let sut = SUT(
             colorSpace: .srgb,
@@ -39,6 +39,25 @@ final class ColorTests: XCTestCase {
                 red: "12",
                 green: "34",
                 blue: "56"
+            )
+        )
+
+        // When
+        let rgbHex = sut.rgbHex
+
+        // Then
+        XCTAssertEqual(rgbHex, "0C2238")
+    }
+
+    func test_rgbHex_withFloatComponents_returnsEmptyString() {
+        // Given
+        let sut = SUT(
+            colorSpace: .srgb,
+            components: .init(
+                alpha: "1",
+                red: "0.0",
+                green: "0.5",
+                blue: "1.0"
             )
         )
 

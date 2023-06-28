@@ -45,14 +45,15 @@ extension ColorAsset {
         var components: Components
 
         var rgbHex: String {
-            let rgb = [
+            var rgb = [
                 components.red,
                 components.green,
                 components.blue
             ]
-            guard rgb.allSatisfy({
-                $0.hasPrefix("0x")
-            }) else { return "" }
+
+            if !rgb.allSatisfy({ $0.hasPrefix("0x") }) {
+                rgb = rgb.compactMap(convertToHexadecimal)
+            }
 
             return rgb
                 .reduce("", +)
@@ -63,6 +64,15 @@ extension ColorAsset {
             case components
             case colorSpace = "color-space"
         }
+    }
+}
+
+extension ColorAsset.Color {
+    private func convertToHexadecimal(_ component: String) -> String? {
+        guard !component.contains("."),
+              let intComponent = Int(component) else { return nil }
+
+        return String(format:"%02X", intComponent)
     }
 }
 
