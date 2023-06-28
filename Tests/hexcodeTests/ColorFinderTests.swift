@@ -112,4 +112,39 @@ final class ColorFinderTests: XCTestCase {
         // Then
         XCTAssert(colors.isEmpty)
     }
+
+    // MARK: - Test find appearances
+
+    func test_find_withMultipleAppearances_whenMatchesOnlyOne_addsAppearanceToName() {
+        // Given
+        let sut = SUT()
+
+        // When
+        let colors = sut.find("#F4EA2F", in: [.sunflowerColorHex])
+
+        // Then
+        XCTAssertEqual(colors, ["sunflowerHex (Dark)"])
+    }
+
+    func test_find_withMultipleAppearances_whenMatchesOnlyAny_addsAnyToName() {
+        // Given
+        let sut = SUT()
+
+        // When
+        let colors = sut.find("#E8DE2A", in: [.sunflowerColorHex])
+
+        // Then
+        XCTAssertEqual(colors, ["sunflowerHex (Any)"])
+    }
+
+    func test_find_withMultipleAppearances_whenMatchesMultipleAppearances_addsAllToName() {
+        // Given
+        let sut = SUT()
+
+        // When
+        let colors = sut.find("#171717", in: [.defaultTextColorHex])
+
+        // Then
+        XCTAssertEqual(colors, ["defaultTextHex (Any, Light)"])
+    }
 }
