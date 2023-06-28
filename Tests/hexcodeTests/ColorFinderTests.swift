@@ -49,7 +49,7 @@ final class ColorFinderTests: XCTestCase {
         let colors = sut.find("#FFFFFF", in: [])
 
         // Then
-        XCTAssert(colors.isEmpty)
+        AssertEmpty(colors)
     }
 
     func test_find_hexWithHash_inColorSetsWithoutExpectedColor_findsNothing() {
@@ -57,7 +57,7 @@ final class ColorFinderTests: XCTestCase {
         let colors = sut.find("#000000", in: [.whiteColorHex])
 
         // Then
-        XCTAssert(colors.isEmpty)
+        AssertEmpty(colors)
     }
 
     // MARK: - Test find trimmed hex
@@ -90,7 +90,7 @@ final class ColorFinderTests: XCTestCase {
         let colors = sut.find("FFFFFF", in: [])
 
         // Then
-        XCTAssert(colors.isEmpty)
+        AssertEmpty(colors)
     }
 
     func test_find_trimmedHex_inColorSetsWithoutExpectedColor_findsNothing() {
@@ -98,7 +98,7 @@ final class ColorFinderTests: XCTestCase {
         let colors = sut.find("000000", in: [.whiteColorHex])
 
         // Then
-        XCTAssert(colors.isEmpty)
+        AssertEmpty(colors)
     }
 
     // MARK: - Test find appearances

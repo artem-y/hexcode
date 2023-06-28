@@ -7,7 +7,7 @@
 
 import XCTest
 
-/// Passes if expression throws expected error.
+/// Asserts that an expression throws expected error.
 /// - parameter expression: Throwable expression.
 /// - parameter error: Expected `Equatable` error.
 /// - parameter file: The file where the assertion failed.
@@ -40,4 +40,21 @@ func Assert<T, E: Error & Equatable>(
             line: line
         )
     }
+}
+
+/// Asserts that a collection is empty
+/// - parameter collection: Instance of any type that conforms to the `Collection` protocol.
+/// - parameter file: The file where the assertion failed.
+/// - parameter line: The line on which the assertion failed.
+func AssertEmpty(
+    _ collection: any Collection,
+    file: StaticString = #filePath,
+    line: UInt = #line
+) {
+    guard !collection.isEmpty else { return }
+    XCTFail(
+        "(\"\(collection)\") is not empty",
+        file: file,
+        line: line
+    )
 }
