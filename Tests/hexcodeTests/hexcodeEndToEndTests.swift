@@ -99,6 +99,37 @@ final class hexcodeEndToEndTests: XCTestCase {
         XCTAssertEqual(output, "defaultTextHex (Dark)\n")
         XCTAssertEqual(error, "")
     }
+
+    func test_hexcode_whenAssetHasRGBIntegerComponents_findsAsset() throws {
+        // Given
+        let arguments = ["#FFA500", "--directory=\(resourcePath)/Resources/Assets.xcassets"]
+
+        // When
+        let (output, error) = try runHexcode(arguments: arguments)
+
+        // Then
+        XCTAssertEqual(output, "orange\n")
+        XCTAssertEqual(error, "")
+    }
+
+    func test_hexcode_inCatalogWithMixedHexAndIntegerComponentAssets_findsAllMatchingAssets() throws {
+        // Given
+        let arguments = ["#00FFFF", "--directory=\(resourcePath)/Resources/Assets.xcassets"]
+
+        // When
+        let (output, error) = try runHexcode(arguments: arguments)
+
+        // Then
+        XCTAssertEqual(
+            output,
+            """
+            cyan (Any, Light)
+            cyanColorHex
+            cyanWithMixedComponentTypes\n
+            """
+        )
+        XCTAssertEqual(error, "")
+    }
 }
 
 // MARK: - Private
