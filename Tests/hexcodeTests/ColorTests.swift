@@ -65,6 +65,6 @@ final class ColorTests: XCTestCase {
         let rgbHex = sut.rgbHex
 
         // Then
-        XCTAssert(rgbHex.isEmpty)
+        AssertEmpty(rgbHex)
     }
 }

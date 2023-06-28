@@ -55,7 +55,7 @@ final class AssetCollectorTests: XCTestCase {
         let assets = try sut.collectAssets(in: directory)
 
         // Then
-        XCTAssert(assets.isEmpty)
+        AssertEmpty(assets)
     }
 
     func test_collectAssets_inNonExistentDirectory_throwsDirectoryNotFoundError() throws {

@@ -95,8 +95,8 @@ final class HexcodeAppTests: XCTestCase {
         try? sut.run(colorHex: blackHexStub)
 
         // Then
-        XCTAssert(mocks.colorFinder.calls.isEmpty)
-        XCTAssert(mocks.outputs.isEmpty)
+        AssertEmpty(mocks.colorFinder.calls)
+        AssertEmpty(mocks.outputs)
     }
 
     func test_run_whenAssetCollectorThrowsDirectoryNotFound_doesNotLookForColors() {
@@ -107,8 +107,8 @@ final class HexcodeAppTests: XCTestCase {
         try? sut.run(colorHex: blackHexStub)
 
         // Then
-        XCTAssert(mocks.colorFinder.calls.isEmpty)
-        XCTAssert(mocks.outputs.isEmpty)
+        AssertEmpty(mocks.colorFinder.calls)
+        AssertEmpty(mocks.outputs)
     }
 
     func test_run_whenCollectedAssets_callsColorFinderWithCollectedAssets() throws {
