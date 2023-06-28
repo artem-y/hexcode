@@ -1,10 +1,3 @@
-//
-//  ColorSetJSON.swift
-//  
-//
-//  Created by Artem Yelizarov on 25.06.2023.
-//
-
 enum ColorSetJSON {
     static let white = makeColorSetJSON(red: "0xFF", green: "0xFF", blue: "0xFF")
     static let black = makeColorSetJSON(red: "0x00", green: "0x00", blue: "0x00")

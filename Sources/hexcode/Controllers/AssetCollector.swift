@@ -1,10 +1,3 @@
-//
-//  AssetCollector.swift
-//  
-//
-//  Created by Artem Yelizarov on 21.06.2023.
-//
-
 import Foundation
 
 protocol AssetCollecting {

@@ -1,10 +1,3 @@
-//
-//  AssetCollectorTests.swift
-//  
-//
-//  Created by Artem Yelizarov on 20.06.2023.
-//
-
 @testable import hexcode
 import XCTest
 

@@ -1,10 +1,3 @@
-//
-//  ArgumentValidator.swift
-//  
-//
-//  Created by Artem Yelizarov on 28.06.2023.
-//
-
 struct ArgumentValidator {
     func validate(colorHex: String) throws {
         var colorHex = colorHex

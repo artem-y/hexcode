@@ -1,10 +1,3 @@
-//
-//  ColorFinderTests.swift
-//  
-//
-//  Created by Artem Yelizarov on 17.06.2023.
-//
-
 @testable import hexcode
 import XCTest
 

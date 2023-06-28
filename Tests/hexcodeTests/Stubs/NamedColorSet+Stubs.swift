@@ -1,10 +1,3 @@
-//
-//  NamedColorSet+Stubs.swift
-//  
-//
-//  Created by Artem Yelizarov on 18.06.2023.
-//
-
 @testable import hexcode
 
 extension NamedColorSet {

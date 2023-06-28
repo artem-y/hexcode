@@ -1,10 +1,3 @@
-//
-//  ColorTests.swift
-//  
-//
-//  Created by Artem Yelizarov on 17.06.2023.
-//
-
 import XCTest
 @testable import hexcode
 
