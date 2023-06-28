@@ -12,18 +12,20 @@ final class AssetCollectorTests: XCTestCase {
     typealias SUT = AssetCollector
 
     private var mocks = Mocks()
+    private var sut = SUT()
 
     // MARK: - Life Cycle
 
-    override func setUpWithError() throws {
+    override func setUp() {
         mocks = Mocks()
+        sut = SUT()
+        sut.fileManager = mocks.fileManager
     }
 
     // MARK: - Tests
 
     func test_collectAssets_inAssetCatalogDirectory_findsAssets() throws {
         // Given
-        let sut = makeSUT()
         let catalogPath = "Assets.xcassets"
         setMockDirectory(at: catalogPath, with: ["whiteColorHex.colorset", "blackColorHex.colorset"])
         setMockAsset(at: catalogPath + "/whiteColorHex.colorset", with: ColorSetJSON.white)
@@ -38,7 +40,6 @@ final class AssetCollectorTests: XCTestCase {
 
     func test_collectAssets_inDicectoryWithInvalidAssets_findsNothing() throws {
         // Given
-        let sut = makeSUT()
         let directory = "/some/directory"
 
         setMockDirectory(at: directory, with: ["Contents.json", "notAColor.colorset", "brokenColor.colorset"])
@@ -59,7 +60,6 @@ final class AssetCollectorTests: XCTestCase {
 
     func test_collectAssets_inNonExistentDirectory_throwsDirectoryNotFoundError() throws {
         // Given
-        let sut = makeSUT()
         let path = "/nonExistentDirectory"
         mocks.fileManager.results.fileExistsAtPath[path] = nil
 
@@ -71,7 +71,6 @@ final class AssetCollectorTests: XCTestCase {
 
     func test_collectAssets_atPathThatIsFile_throwsNotADirectoryError() throws {
         // Given
-        let sut = makeSUT()
         let filePath = "/someFile"
         mocks.fileManager.results.fileExistsAtPath[filePath] = .file
 
@@ -83,8 +82,6 @@ final class AssetCollectorTests: XCTestCase {
 
     func test_collectAssets_inCatalogWithMultipleSubdirectories_findsAllAssets() throws {
         // Given
-        let sut = makeSUT()
-
         let catalogPath = "/Resources/AssetsInSubdirectories.xcassets"
         setMockDirectory(at: catalogPath, with: ["OtherColors", "redColorHex.colorset",])
         setMockAsset(at: "\(catalogPath)/redColorHex.colorset", with: ColorSetJSON.red)
@@ -108,12 +105,6 @@ final class AssetCollectorTests: XCTestCase {
 // MARK: - Private
 
 extension AssetCollectorTests {
-    private func makeSUT() -> SUT {
-        let sut = SUT()
-        sut.fileManager = mocks.fileManager
-        return sut
-    }
-
     private func setMockAsset(at path: String, with contentsJSON: String) {
         setMockDirectory(at: path, with: ["Contents.json"])
         setMockFile(at: "\(path)/Contents.json", with: data(contentsJSON))
