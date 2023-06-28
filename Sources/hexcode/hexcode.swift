@@ -9,7 +9,13 @@ struct hexcode: ParsableCommand {
     var directory: String?
 
     func validate() throws {
-        try ArgumentValidator().validate(colorHex: colorHex)
+        do {
+            try ArgumentValidator().validate(colorHex: colorHex)
+        } catch {
+            throw ValidationError(
+                String(describing: error)
+            )
+        }
     }
 
     func run() throws {

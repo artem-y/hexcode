@@ -130,6 +130,42 @@ final class hexcodeEndToEndTests: XCTestCase {
         )
         XCTAssertEqual(error, "")
     }
+
+    func test_hexcode_withTooLongColorHex_exitsWithTooLongError() throws {
+        // Given
+        let arguments = ["fafa33c", "--directory=\(resourcePath)/Resources/Assets.xcassets"]
+
+        // When
+        let (output, error) = try runHexcode(arguments: arguments)
+
+        // Then
+        XCTAssertEqual(output, "")
+        XCTAssert(error.contains("Error: Color hex is too long\n"))
+    }
+
+    func test_hexcode_withTooShortColorHex_exitsWithTooShortError() throws {
+        // Given
+        let arguments = ["#ffa50", "--directory=\(resourcePath)/Resources/Assets.xcassets"]
+
+        // When
+        let (output, error) = try runHexcode(arguments: arguments)
+
+        // Then
+        XCTAssertEqual(output, "")
+        XCTAssert(error.contains("Error: Color hex is too short\n"))
+    }
+
+    func test_hexcode_withInvalidColorHex_exitsWithInvalidColorHexError() throws {
+        // Given
+        let arguments = ["#12345R", "--directory=\(resourcePath)/Resources/Assets.xcassets"]
+
+        // When
+        let (output, error) = try runHexcode(arguments: arguments)
+
+        // Then
+        XCTAssertEqual(output, "")
+        XCTAssert(error.contains("Error: Color hex contains invalid symbols\n"))
+    }
 }
 
 // MARK: - Private
@@ -149,7 +185,7 @@ extension hexcodeEndToEndTests {
         return components.url
     }
 
-    private func runHexcode(arguments: [String]) throws -> (output: String?, error: String?) {
+    private func runHexcode(arguments: [String]) throws -> (output: String, error: String) {
         let process = Process()
         process.arguments = arguments
 
@@ -164,10 +200,10 @@ extension hexcodeEndToEndTests {
         process.waitUntilExit()
 
         let outputData = standardOutput.fileHandleForReading.availableData
-        let outputString = String(data: outputData, encoding: .utf8)
+        let outputString = String(data: outputData, encoding: .utf8) ?? ""
 
         let errorData = standardError.fileHandleForReading.availableData
-        let errorString = String(data: errorData, encoding: .utf8)
+        let errorString = String(data: errorData, encoding: .utf8) ?? ""
 
         return (output: outputString, error: errorString)
     }
