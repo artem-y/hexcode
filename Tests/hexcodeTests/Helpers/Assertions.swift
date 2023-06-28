@@ -26,7 +26,10 @@ func Assert<T, E: Error & Equatable>(
     ) { actualError in
         guard let actualError = actualError as? E else {
             XCTFail(
-                "Threw wrong type of error, expected: \(E.self)",
+                """
+                Threw wrong type of error \"(\"\(type(of: actualError))\")\" \
+                instead of expected type \"(\"\(type(of: error))\")\"
+                """,
                 file: file,
                 line: line
             )
