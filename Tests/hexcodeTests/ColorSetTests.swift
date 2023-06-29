@@ -21,8 +21,8 @@ final class ColorSetTests: XCTestCase {
 
     func test_decodeColorSet_fromFile_succeeds() throws {
         // Given
-        let resourcePath = try XCTUnwrap(Bundle.module.resourcePath)
-        let filePath = "\(resourcePath)/Resources/Assets.xcassets/whiteColorHex.colorset/Contents.json"
+        let resourcePath = try makeResourcePath()
+        let filePath = "\(resourcePath)/Assets.xcassets/whiteColorHex.colorset/Contents.json"
         let colorData = try XCTUnwrap(
             FileManager.default.contents(atPath: filePath)
         )

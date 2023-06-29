@@ -11,14 +11,14 @@ final class hexcodeEndToEndTests: XCTestCase {
 
     override func setUpWithError() throws {
         hexcodeExecutableURL = makeHexcodeExecutableURL()
-        resourcePath = try XCTUnwrap(Bundle.module.resourcePath)
+        resourcePath = try makeResourcePath()
     }
 
     // MARK: - Tests
 
     func test_hexcode_inAssetCatalogWithSingleAsset_findsAsset() throws {
         // Given
-        let arguments = ["#FFFFFF", "--directory=\(resourcePath)/Resources/Assets.xcassets"]
+        let arguments = ["#FFFFFF", "--directory=\(resourcePath)/Assets.xcassets"]
 
         // When
         let (output, error) = try runHexcode(arguments: arguments)
@@ -30,7 +30,7 @@ final class hexcodeEndToEndTests: XCTestCase {
 
     func test_hexcode_inDicectoryWithoutAssets_outputsNoColorsFoundMessage() throws {
         // Given
-        let arguments = ["123456", "--directory=\(resourcePath)/Resources/FakeContentFolder"]
+        let arguments = ["123456", "--directory=\(resourcePath)/FakeContentFolder"]
 
         // When
         let (output, error) = try runHexcode(arguments: arguments)
@@ -42,7 +42,7 @@ final class hexcodeEndToEndTests: XCTestCase {
 
     func test_hexcode_inNonExistentDirectory_exitsWithDirectoryNotFoundError() throws {
         // Given
-        let arguments = ["010203", "--directory=\(resourcePath)/Resources/ImaginaryFolder"]
+        let arguments = ["010203", "--directory=\(resourcePath)/ImaginaryFolder"]
 
         // When
         let (output, error) = try runHexcode(arguments: arguments)
@@ -54,7 +54,7 @@ final class hexcodeEndToEndTests: XCTestCase {
 
     func test_hexcode_inNonExistentDirectory_exitsWithNotADirectoryError() throws {
         // Given
-        let arguments = ["0ABCDF", "--directory=\(resourcePath)/Resources/EmptyFile"]
+        let arguments = ["0ABCDF", "--directory=\(resourcePath)/EmptyFile"]
 
         // When
         let (output, error) = try runHexcode(arguments: arguments)
@@ -66,7 +66,7 @@ final class hexcodeEndToEndTests: XCTestCase {
 
     func test_hexcode_inCatalogWithMultipleSubdirectories_findsAsset() throws {
         // Given
-        let arguments = ["0000FF", "--directory=\(resourcePath)/Resources/AssetsInSubdirectories.xcassets"]
+        let arguments = ["0000FF", "--directory=\(resourcePath)/AssetsInSubdirectories.xcassets"]
 
         // When
         let (output, error) = try runHexcode(arguments: arguments)
@@ -78,7 +78,7 @@ final class hexcodeEndToEndTests: XCTestCase {
 
     func test_hexcode_inAssetWithMultipleMatchingAppearances_findsAssetWithMatchingAppearances() throws {
         // Given
-        let arguments = ["#171717", "--directory=\(resourcePath)/Resources/Assets.xcassets"]
+        let arguments = ["#171717", "--directory=\(resourcePath)/Assets.xcassets"]
 
         // When
         let (output, error) = try runHexcode(arguments: arguments)
@@ -90,7 +90,7 @@ final class hexcodeEndToEndTests: XCTestCase {
 
     func test_hexcode_inAssetWithOneMatchingAppearance_findsAssetWithMatchingAppearance() throws {
         // Given
-        let arguments = ["#E7E7E7", "--directory=\(resourcePath)/Resources/Assets.xcassets"]
+        let arguments = ["#E7E7E7", "--directory=\(resourcePath)/Assets.xcassets"]
 
         // When
         let (output, error) = try runHexcode(arguments: arguments)
@@ -102,7 +102,7 @@ final class hexcodeEndToEndTests: XCTestCase {
 
     func test_hexcode_whenAssetHasRGBIntegerComponents_findsAsset() throws {
         // Given
-        let arguments = ["#FFA500", "--directory=\(resourcePath)/Resources/Assets.xcassets"]
+        let arguments = ["#FFA500", "--directory=\(resourcePath)/Assets.xcassets"]
 
         // When
         let (output, error) = try runHexcode(arguments: arguments)
@@ -114,7 +114,7 @@ final class hexcodeEndToEndTests: XCTestCase {
 
     func test_hexcode_inCatalogWithMixedHexAndIntegerComponentAssets_findsAllMatchingAssets() throws {
         // Given
-        let arguments = ["#00FFFF", "--directory=\(resourcePath)/Resources/Assets.xcassets"]
+        let arguments = ["#00FFFF", "--directory=\(resourcePath)/Assets.xcassets"]
 
         // When
         let (output, error) = try runHexcode(arguments: arguments)
@@ -133,7 +133,7 @@ final class hexcodeEndToEndTests: XCTestCase {
 
     func test_hexcode_withTooLongColorHex_exitsWithTooLongError() throws {
         // Given
-        let arguments = ["fafa33c", "--directory=\(resourcePath)/Resources/Assets.xcassets"]
+        let arguments = ["fafa33c", "--directory=\(resourcePath)/Assets.xcassets"]
 
         // When
         let (output, error) = try runHexcode(arguments: arguments)
@@ -145,7 +145,7 @@ final class hexcodeEndToEndTests: XCTestCase {
 
     func test_hexcode_withTooShortColorHex_exitsWithTooShortError() throws {
         // Given
-        let arguments = ["#ffa50", "--directory=\(resourcePath)/Resources/Assets.xcassets"]
+        let arguments = ["#ffa50", "--directory=\(resourcePath)/Assets.xcassets"]
 
         // When
         let (output, error) = try runHexcode(arguments: arguments)
@@ -157,7 +157,7 @@ final class hexcodeEndToEndTests: XCTestCase {
 
     func test_hexcode_withInvalidColorHex_exitsWithInvalidColorHexError() throws {
         // Given
-        let arguments = ["#12345R", "--directory=\(resourcePath)/Resources/Assets.xcassets"]
+        let arguments = ["#12345R", "--directory=\(resourcePath)/Assets.xcassets"]
 
         // When
         let (output, error) = try runHexcode(arguments: arguments)
