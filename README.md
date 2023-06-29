@@ -1,9 +1,6 @@
-<!-- <p align="center"> -->
+  
 <img src="Tests/hexcodeTests/Resources/Assets.xcassets/hexcode_logo.imageset/hexcode_logo@3x.png" width=25% align="center">  
-<!-- </p> -->
-<!-- <p align="center"> -->
-  Find Xcode color asset by its hex code
-<!-- </p> -->
+A tool that finds Xcode color assets by their hex codes. The idea behind this tool is to speed up and ease the process of finding assets that were already added to the project. This helps prevent accidental duplication when there are too many color assets to go through and they are easy to miss because they have different component representations.
 
 ### ⚠️Disclaimer:
 For now, the tool only supports search for color assets that are represented as hex or 0-255 RGB integer values. If an asset has floating point numbers for it's RGB components, such asset will not be found even if it matches.
@@ -15,6 +12,8 @@ cd hexcode
 swift build -c release
 mv .build/release/hexcode /usr/local/bin
 ```
+(you might need `sudo` before the `mv` command, depending on your machine's configuration) 
+
 3. Run `which hexcode` to make sure it is now visible  
 
 Alternatively, it can be moved to some directory other than `/usr/local/bin`, just make sure that directory is included in `$PATH` if you want it visible from anywhere in terminal.  
@@ -33,4 +32,14 @@ From the `hexcode` directory (or passing it as `--package-path`), the command ca
 ```
 swift run hexcode e8de2a
 ```
+## Testing
+<p align="right">
+<i>- "If it is not tested, I will send it back."<br>
+- "If tests don't pass, I will send it back."</i>
+</p>
 
+Tests should work both from Xcode (Cmd+U after opening `Package.swift`) and Terminal:  
+```
+swift test
+```
+Core logic must be covered with tests that help decrease regression when developing new features, and also help understand how the app works.
