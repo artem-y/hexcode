@@ -30,7 +30,7 @@ More arguments and options will be added in the future with new features, they c
 ### Running without installation
 From the `hexcode` directory (or passing it as `--package-path`), the command can be run as executable package without previous installation, for example:
 ```
-swift run hexcode e8de2a
+swift run hexcode e8de2a --directory=$HOME/Documents/myProject
 ```
 ## Testing
 <p align="right">
