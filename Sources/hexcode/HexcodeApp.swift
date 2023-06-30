@@ -1,10 +1,3 @@
-//
-//  HexcodeApp.swift
-//  
-//
-//  Created by Artem Yelizarov on 24.06.2023.
-//
-
 import Foundation
 
 final class HexcodeApp {

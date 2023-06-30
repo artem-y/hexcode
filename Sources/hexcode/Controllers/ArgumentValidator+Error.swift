@@ -1,10 +1,3 @@
-//
-//  ArgumentValidator+Error.swift
-//  
-//
-//  Created by Artem Yelizarov on 28.06.2023.
-//
-
 import Foundation
 
 extension ArgumentValidator {

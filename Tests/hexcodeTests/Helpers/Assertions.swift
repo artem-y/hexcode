@@ -1,10 +1,3 @@
-//
-//  Assertions.swift
-//  
-//
-//  Created by Artem Yelizarov on 24.06.2023.
-//
-
 import XCTest
 
 /// Asserts that an expression throws expected error.

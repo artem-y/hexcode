@@ -1,10 +1,3 @@
-//
-//  ArgumentValidatorTests.swift
-//  
-//
-//  Created by Artem Yelizarov on 28.06.2023.
-//
-
 @testable import hexcode
 import XCTest
 

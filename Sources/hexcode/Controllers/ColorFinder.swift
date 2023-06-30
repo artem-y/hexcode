@@ -1,10 +1,3 @@
-//
-//  ColorFinder.swift
-//  
-//
-//  Created by Artem Yelizarov on 17.06.2023.
-//
-
 import Foundation
 
 protocol ColorFinding {
