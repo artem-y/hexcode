@@ -1,4 +1,5 @@
 import Foundation
+import Cocoa
 
 struct ColorAsset: Decodable, Equatable {
     var color: Color
@@ -38,25 +39,38 @@ extension ColorAsset {
         var components: Components
 
         var rgbHex: String {
-            var rgb = [
+            let rgb = [
                 components.red,
                 components.green,
                 components.blue
             ]
 
-            if !rgb.allSatisfy(isValidHexComponent) {
-                for (offset, component) in rgb.enumerated() {
-                    guard let convertedComponent = convertToHexadecimal(component) else {
-                        return ""
-                    }
+            if rgb
+                .filter(isValidHexComponent)
+                .count == 3 {
+                return rgb
+                    .reduce("", +)
+                    .replacingOccurrences(of: "0x", with: "")
+            }
 
-                    rgb[offset] = convertedComponent
+            if rgb
+                .filter(isValidFloatComponent)
+                .count == 3 {
+
+                let floatComponents = rgb
+                    .compactMap(convertFloatToHexadecimal)
+                if floatComponents.count == 3 {
+                    return floatComponents
+                        .reduce("", +)
                 }
             }
 
-            return rgb
+            let hexComponents = rgb
+                .compactMap(convertIntToHexadecimal)
+
+            guard hexComponents.count == 3 else { return "" }
+            return hexComponents
                 .reduce("", +)
-                .replacingOccurrences(of: "0x", with: "")
         }
 
         enum CodingKeys: String, CodingKey {
@@ -71,10 +85,41 @@ extension ColorAsset.Color {
         component.hasPrefix("0x") && component.count == 4
     }
 
-    private func convertToHexadecimal(_ component: String) -> String? {
-        guard !component.contains("."),
-              let intComponent = Int(component) else { return nil }
+    private func isValidFloatComponent(_ component: String) -> Bool {
+        matchRegex(component, pattern: "[0-1]\\.[0-9]+")
+    }
 
+    private func matchRegex(_ string: String, pattern: String) -> Bool {
+        guard let regex = try? NSRegularExpression(pattern: pattern) else { return false }
+        let foundMatches = regex.matches(
+            in: string,
+            range: NSRange(
+                location: 0,
+                length: string.count
+            )
+        )
+        return foundMatches.count == 1
+    }
+
+    private func convertIntToHexadecimal(_ component: String) -> String? {
+        guard let intComponent = Int(component) else { return nil }
+        return String(format:"%02X", intComponent)
+    }
+
+    private static let formatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.decimalSeparator = "."
+        return formatter
+    }()
+
+
+    private func convertFloatToHexadecimal(_ component: String) -> String? {
+        guard let nsNumberComponent = Self.formatter.number(from: component) else { return nil }
+
+        let floatComponent = CGFloat(truncating: nsNumberComponent)
+        guard floatComponent >= 0.0 && floatComponent <= 1.0 else { return nil }
+
+        let intComponent = Int(floatComponent * 255.0)
         return String(format:"%02X", intComponent)
     }
 }
