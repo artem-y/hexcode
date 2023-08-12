@@ -82,7 +82,7 @@ extension ColorAsset {
 
 extension ColorAsset.Color {
     private func isValidHexComponent(_ component: String) -> Bool {
-        component.hasPrefix("0x") && component.count == 4
+        matchRegex(component, pattern: "0x[0-9a-fA-F]{2}")
     }
 
     private func isValidFloatComponent(_ component: String) -> Bool {

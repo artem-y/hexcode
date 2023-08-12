@@ -231,4 +231,23 @@ final class ColorTests: XCTestCase {
         // Then
         AssertEmpty(rgbHex)
     }
+    
+    func test_rgbHex_withInvalidHexValues_returnsEmptyString() {
+        // Given
+        let sut = SUT(
+            colorSpace: .srgb,
+            components: .init(
+                alpha: "1",
+                red: "0x00",
+                green: "0xFG",
+                blue: "0x1B"
+            )
+        )
+
+        // When
+        let rgbHex = sut.rgbHex
+
+        // Then
+        AssertEmpty(rgbHex)
+    }
 }
