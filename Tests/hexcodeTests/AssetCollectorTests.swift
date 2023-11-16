@@ -1,5 +1,6 @@
 @testable import hexcode
 import XCTest
+import SwiftyTestAssertions
 
 final class AssetCollectorTests: XCTestCase {
     typealias SUT = AssetCollector

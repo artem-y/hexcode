@@ -1,5 +1,6 @@
 import XCTest
 @testable import hexcode
+import SwiftyTestAssertions
 
 final class ColorTests: XCTestCase {
     typealias SUT = ColorAsset.Color
