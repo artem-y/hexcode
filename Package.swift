@@ -1,14 +1,15 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 5.9
 
 import PackageDescription
 
 let package = Package(
     name: "hexcode",
     platforms: [
-        .macOS(.v12),
+        .macOS(.v13),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.0"),
+        .package(url: "https://github.com/artem-y/swifty-test-assertions.git", from: "0.1.0"),
     ],
     targets: [
         .executableTarget(
@@ -19,7 +20,7 @@ let package = Package(
         ),
         .testTarget(
             name: "hexcodeTests",
-            dependencies: ["hexcode"],
+            dependencies: ["hexcode", .product(name: "SwiftyTestAssertions", package: "swifty-test-assertions")],
             resources: [
                 .copy("Resources")
             ]

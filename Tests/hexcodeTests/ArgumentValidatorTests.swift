@@ -1,5 +1,6 @@
 @testable import hexcode
 import XCTest
+import SwiftyTestAssertions
 
 final class ArgumentValidatorTests: XCTestCase {
     typealias SUT = ArgumentValidator

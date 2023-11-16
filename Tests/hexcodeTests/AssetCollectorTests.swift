@@ -1,5 +1,6 @@
 @testable import hexcode
 import XCTest
+import SwiftyTestAssertions
 
 final class AssetCollectorTests: XCTestCase {
     typealias SUT = AssetCollector
@@ -48,7 +49,7 @@ final class AssetCollectorTests: XCTestCase {
         let assets = try sut.collectAssets(in: directory)
 
         // Then
-        AssertEmpty(assets)
+        AssertEmpty(assets, "not empty", file: #file, line: #line)
     }
 
     func test_collectAssets_inNonExistentDirectory_throwsDirectoryNotFoundError() throws {
