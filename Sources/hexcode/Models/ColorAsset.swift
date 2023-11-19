@@ -53,24 +53,23 @@ extension ColorAsset {
                     .replacingOccurrences(of: "0x", with: "")
             }
 
-            if rgb
-                .filter(isValidFloatComponent)
-                .count == 3 {
-
-                let floatComponents = rgb
-                    .compactMap(convertFloatToHexadecimal)
-                if floatComponents.count == 3 {
-                    return floatComponents
-                        .reduce("", +)
-                }
-            }
-
             let hexComponents = rgb
                 .compactMap(convertIntToHexadecimal)
 
-            guard hexComponents.count == 3 else { return "" }
-            return hexComponents
-                .reduce("", +)
+            if hexComponents.count == 3 {
+                return hexComponents
+                    .reduce("", +)
+            }
+
+            let floatComponents = rgb
+                .compactMap(convertFloatToHexadecimal)
+
+            if floatComponents.count == 3 {
+                return floatComponents
+                    .reduce("", +)
+            }
+
+            return ""
         }
 
         enum CodingKeys: String, CodingKey {
