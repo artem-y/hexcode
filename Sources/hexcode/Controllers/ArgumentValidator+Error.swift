@@ -1,5 +1,3 @@
-import Foundation
-
 extension ArgumentValidator {
     enum ColorHexError: Swift.Error, Equatable {
         case tooShort

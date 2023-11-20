@@ -1,5 +1,3 @@
-import Foundation
-
 protocol ColorFinding {
     func find(_ hex: String, in colorSets: [NamedColorSet]) -> [String]
 }

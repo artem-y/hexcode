@@ -1,5 +1,3 @@
-import Foundation
-
 struct ColorSet: Decodable, Equatable {
     struct Info: Decodable, Equatable {
         var author: String

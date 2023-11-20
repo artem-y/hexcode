@@ -1,5 +1,4 @@
 @testable import hexcode
-import Foundation
 
 final class ColorFinderMock {
     enum Call: Equatable {
