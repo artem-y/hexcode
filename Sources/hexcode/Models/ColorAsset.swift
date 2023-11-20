@@ -45,31 +45,10 @@ extension ColorAsset {
                 components.blue
             ]
 
-            if rgb
-                .filter(isValidHexComponent)
-                .count == 3 {
-                return rgb
-                    .reduce("", +)
-                    .replacingOccurrences(of: "0x", with: "")
-            }
-
-            let hexComponents = rgb
-                .compactMap(convertIntToHexadecimal)
-
-            if hexComponents.count == 3 {
-                return hexComponents
-                    .reduce("", +)
-            }
-
-            let floatComponents = rgb
-                .compactMap(convertFloatToHexadecimal)
-
-            if floatComponents.count == 3 {
-                return floatComponents
-                    .reduce("", +)
-            }
-
-            return ""
+            return convert(rgb, from: .hex)
+            ?? convert(rgb, from: .int)
+            ?? convert(rgb, from: .float)
+            ?? ""
         }
 
         enum CodingKeys: String, CodingKey {
@@ -80,12 +59,26 @@ extension ColorAsset {
 }
 
 extension ColorAsset.Color {
-    private func isValidHexComponent(_ component: String) -> Bool {
-        matchRegex(component, pattern: "0x[0-9a-fA-F]{2}")
+    private func convert(_ components: [String], from rawComponentType: ComponentType) -> String? {
+        let converter = switch rawComponentType {
+        case .float: convertFloatToHexadecimal
+        case .int: convertIntToHexadecimal
+        case .hex: convertRawToHexadecimal
+        }
+
+        let hexComponents = components.compactMap(converter)
+        guard hexComponents.count == 3 else { return nil }
+
+        return hexComponents.joined()
     }
 
-    private func isValidFloatComponent(_ component: String) -> Bool {
-        matchRegex(component, pattern: "[0-1]\\.[0-9]+")
+    private func convertRawToHexadecimal(_ component: String) -> String? {
+        guard isValidHexComponent(component) else { return nil }
+        return String(component.dropFirst(2))
+    }
+
+    private func isValidHexComponent(_ component: String) -> Bool {
+        matchRegex(component, pattern: "0x[0-9a-fA-F]{2}")
     }
 
     private func matchRegex(_ string: String, pattern: String) -> Bool {
@@ -141,5 +134,15 @@ extension ColorAsset.Color {
         var red: String
         var green: String
         var blue: String
+    }
+}
+
+// MARK: - ColorAsset.Color.ComponentType
+
+extension ColorAsset.Color {
+    private enum ComponentType {
+        case float
+        case hex
+        case int
     }
 }
