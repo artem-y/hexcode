@@ -4,5 +4,6 @@ extension ColorAsset.Color {
         case srgb
         case extendedSrgb = "extended-srgb"
         case extendedLinearSrgb = "extended-linear-srgb"
+        case displayP3 = "display-p3"
     }
 }
