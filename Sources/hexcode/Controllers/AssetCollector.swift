@@ -33,8 +33,8 @@ extension AssetCollector {
 
         var description: String {
             switch self {
-            case .directoryNotFound: return "Directory not found"
-            case .notADirectory: return "Not a directory"
+            case .directoryNotFound: "Directory not found"
+            case .notADirectory: "Not a directory"
             }
         }
     }

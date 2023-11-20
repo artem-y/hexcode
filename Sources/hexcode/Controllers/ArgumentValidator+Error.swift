@@ -13,12 +13,9 @@ extension ArgumentValidator {
 extension ArgumentValidator.ColorHexError: CustomStringConvertible {
     var description: String {
         switch self {
-        case .tooShort:
-            return "Color hex is too short"
-        case .tooLong:
-            return "Color hex is too long"
-        case .hasInvalidSymbols:
-            return "Color hex contains invalid symbols"
+        case .tooShort: "Color hex is too short"
+        case .tooLong: "Color hex is too long"
+        case .hasInvalidSymbols: "Color hex contains invalid symbols"
         }
     }
 }

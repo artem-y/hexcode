@@ -95,7 +95,7 @@ extension ColorAsset.Color {
 
     private func convertIntToHexadecimal(_ component: String) -> String? {
         guard let intComponent = Int(component) else { return nil }
-        return String(format:"%02X", intComponent)
+        return String(format: "%02X", intComponent)
     }
 
     private static let formatter: NumberFormatter = {
@@ -104,7 +104,6 @@ extension ColorAsset.Color {
         return formatter
     }()
 
-
     private func convertFloatToHexadecimal(_ component: String) -> String? {
         guard let nsNumberComponent = Self.formatter.number(from: component) else { return nil }
 
@@ -112,7 +111,7 @@ extension ColorAsset.Color {
         guard floatComponent >= 0.0 && floatComponent <= 1.0 else { return nil }
 
         let intComponent = Int(floatComponent * 255.0)
-        return String(format:"%02X", intComponent)
+        return String(format: "%02X", intComponent)
     }
 }
 
