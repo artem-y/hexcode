@@ -1,7 +1,13 @@
 import Foundation
 
+/// Finds color asset folders and converts them to Swift objects.
 protocol AssetCollecting {
+    /// `FileManager` instance used for the search.
     var fileManager: FileManager { get set }
+    /// Finds all color sets in the directory and its subdirectories.
+    /// - parameter directory: Path to the directory to search for color sets.
+    /// - throws: Errors when valid directory not found at given path or can't read content.
+    /// - returns: Named color sets found in given directory, sorted by name.
     func collectAssets(in directory: String) throws -> [NamedColorSet]
 }
 

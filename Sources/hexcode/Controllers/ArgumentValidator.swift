@@ -1,4 +1,9 @@
+/// Validates input arguments.
 struct ArgumentValidator {
+    /// Validates color hex input argument. Input is valid if no error was thrown.
+    /// - parameter colorHex: Hexadecimal color code.
+    /// - returns: `Void`, meaning input is valid.
+    /// - throws: Validation errors, meaning input is invalid.
     func validate(colorHex: String) throws {
         var colorHex = colorHex
         if colorHex.first == "#" {

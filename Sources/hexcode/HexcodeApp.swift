@@ -21,6 +21,10 @@ final class HexcodeApp {
         self.assetCollector = assetCollector
     }
 
+    /// Entry point for `hexcode` app logic.
+    /// - parameter colorHex: Raw input argument for hexadecimal color code.
+    /// - parameter directory: Optional custom directory from user input. Defaults to current directory.
+    /// - throws: All unhandled errors that can be thrown out to standard output.
     func run(colorHex: String, in directory: String? = nil) throws {
         let directory = directory ?? fileManager.currentDirectoryPath
         let colorAssets = try assetCollector.collectAssets(in: directory)

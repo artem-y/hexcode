@@ -1,4 +1,5 @@
 extension ArgumentValidator {
+    /// Error when color hex input didn't match validation criteria.
     enum ColorHexError: Swift.Error, Equatable {
         case tooShort
         case tooLong

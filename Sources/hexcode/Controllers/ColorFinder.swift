@@ -1,4 +1,9 @@
+/// Finds matching color(s).
 protocol ColorFinding {
+    /// Searches the collection of named color sets for colors with matching hex equivalent.
+    /// - parameter hex: Hexadecimal color code to find in color set collection.
+    /// - parameter colorSets: Color sets to check for matching hex color code.
+    /// - returns: Names of color sets with matching colors. Empty if none found.
     func find(_ hex: String, in colorSets: [NamedColorSet]) -> [String]
 }
 

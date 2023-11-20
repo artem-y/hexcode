@@ -3,6 +3,7 @@ import Foundation
 // MARK: - ColorAsset.Color
 
 extension ColorAsset {
+    /// Representation of an actual color, containing components in a color space.
     struct Color: Decodable, Equatable {
         var colorSpace: ColorSpace
         var components: Components
@@ -91,6 +92,7 @@ extension ColorAsset.Color {
 // MARK: - ColorAsset.Color.ComponentType
 
 extension ColorAsset.Color {
+    /// Convenience type to differentiate possible types of components.
     private enum ComponentType {
         case float
         case hex
