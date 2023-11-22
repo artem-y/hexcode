@@ -1,7 +1,8 @@
 import ArgumentParser
 
 @main
-struct hexcode: ParsableCommand {
+struct Hexcode: ParsableCommand {
+
     @Argument
     var colorHex: String
 

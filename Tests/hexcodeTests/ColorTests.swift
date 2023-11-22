@@ -232,7 +232,7 @@ final class ColorTests: XCTestCase {
         // Then
         AssertEmpty(rgbHex)
     }
-    
+
     func test_rgbHex_withInvalidHexValues_returnsEmptyString() {
         // Given
         let sut = SUT(

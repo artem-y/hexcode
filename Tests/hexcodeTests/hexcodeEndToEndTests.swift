@@ -1,8 +1,8 @@
 @testable import hexcode
 import XCTest
 
-final class hexcodeEndToEndTests: XCTestCase {
-    typealias SUT = hexcode
+final class HexcodeEndToEndTests: XCTestCase {
+    typealias SUT = Hexcode
 
     private var hexcodeExecutableURL: URL?
     private var resourcePath = ""
@@ -170,7 +170,7 @@ final class hexcodeEndToEndTests: XCTestCase {
 
 // MARK: - Private
 
-extension hexcodeEndToEndTests {
+extension HexcodeEndToEndTests {
     private func makeHexcodeExecutableURL() -> URL? {
         let bundleURL = Bundle(for: Self.self)
             .bundleURL

@@ -60,4 +60,3 @@ extension ColorFinder {
         appearances.joined(separator: ", ")
     }
 }
-
