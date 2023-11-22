@@ -3,6 +3,15 @@ import ArgumentParser
 @main
 struct Hexcode: ParsableCommand {
 
+    static let configuration = CommandConfiguration(
+        commandName: "hexcode",
+        abstract: """
+                  hexcode is a tool that finds Xcode color assets \
+                  by their hexadecimal codes.
+                  """,
+        version: "hexcode 0.1.0"
+    )
+
     @Argument
     var colorHex: String
 
