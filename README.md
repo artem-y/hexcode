@@ -3,7 +3,7 @@
 A tool that finds Xcode color assets by their hex codes. The idea behind this tool is to speed up and ease the process of finding assets that were already added to the project. This helps prevent accidental duplication when there are too many color assets to go through and they are easy to miss because they have different component representations.
 
 ### ⚠️Disclaimer:
-For now, the tool only supports searching for literal values of color components as ints, floats or hexadecimals, without conversion between settings like content type (sRGB, Display P3, Gray Gamma 2.2 etc.), and ignoring some other settings like Gamut etc.  
+For now, the tool only supports searching for exact values of color components as ints, floats or hexadecimals, without conversion between settings like content type (sRGB, Display P3, Gray Gamma 2.2 etc.), and ignoring some other settings like Gamut etc.  
 ## Installation
 1. Clone the repository to your machine
 2. Assuming the folder name "hexcode" has not changed, run in terminal:

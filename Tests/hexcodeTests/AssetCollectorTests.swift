@@ -77,7 +77,7 @@ final class AssetCollectorTests: XCTestCase {
     func test_collectAssets_inCatalogWithMultipleSubdirectories_findsAllAssets() throws {
         // Given
         let catalogPath = "/Resources/AssetsInSubdirectories.xcassets"
-        setMockDirectory(at: catalogPath, with: ["OtherColors", "redColorHex.colorset",])
+        setMockDirectory(at: catalogPath, with: ["OtherColors", "redColorHex.colorset"])
         setMockAsset(at: "\(catalogPath)/redColorHex.colorset", with: ColorSetJSON.red)
 
         let otherColorsDir = catalogPath + "/OtherColors"

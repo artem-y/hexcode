@@ -9,7 +9,7 @@ enum PathContent {
 final class FileManagerMock: FileManager {
     enum Call: Equatable {
         case getCurrentDirectoryPath
-        case setCurrentDirectoryPath
+        case setCurrentDirectoryPath(String)
         case fileExists(path: String, isDirectory: UnsafeMutablePointer<ObjCBool>?)
         case contentsOfDirectory(path: String)
         case contents(path: String)
@@ -41,7 +41,7 @@ extension FileManagerMock {
         }
 
         set {
-            calls.append(.setCurrentDirectoryPath)
+            calls.append(.setCurrentDirectoryPath(newValue))
         }
     }
 
