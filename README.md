@@ -113,26 +113,41 @@ This README file, which describes the `hexcode` project.
   - #### 📁 hexcodeTests/
     - #### 📁 Helpers/
       - ##### XCTestCase+makeResourcePath.swift
+        This file contains an extension to `XCTestCase` with a helper method that helps find the path to where resources are stored. This was necessary because when tests run from command line vs. when they are just launched from Xcode, that path is different.
     - #### 📁 Mocks/
       - ##### AssetCollectorMock.swift
+        A mock class that can be used as a substitute for `AssetCollector` dependency. The results are used to provide controlled output for methods and getters, and calls enum - allows checking the fact that those were called, and had specific parameters passed into them.
       - ##### ColorFinderMock.swift
+        The mock stored here is substituting `ColorFinder` and follows the same mock structure with logged calls and configurable call results.
       - ##### FileManagerMock.swift
+        A subclass of the `FileManager` from Foundation, with its methods and properties used in this app overriden to make it into a mock. It means they don't actually do anything with real files but simulate the possible outputs of a `FileManager`, which can be controlled through the mock's `results`. And the information about calling them is stored as `calls`. Also, there is an additional `PathContent` enum, which is used just to make it easier to set the desired results by setting the type of content in `fileExistsAtPath` dictionary.
     - #### 📁 Resources/
       - #### 📁 Assets.xcassets/
       - #### 📁 AssetsInSubdirectories.xcassets/
       - #### 📁 FakeContentFolder/
       - ##### EmptyFile
+        As the name says, it's just an empty file. Used to test `AssetCollector` and the app for false positives.
     - #### 📁 Stubs/
       - ##### ColorSet+Stubs.swift
+        This file contains instances of `ColorSet` and of its underlying parts. They're separated away from the tests themselves for the sake of readability.
       - ##### ColorSetJSON.swift
+        The `ColorSetJSON` enum in this file serves the purpose of grouping JSON string stubs for a few different color sets. They are used to simulate decoding color set objects from JSON data.
       - ##### NamedColorSet+Stubs.swift
+        The stubs for `NamedColorSet` contained here serve the same purpose, to provide the tests with instances of models that the logic can be tested on.
     - ##### ArgumentValidatorTests.swift
+      Unit tests for the `ArgumentValidator`'s validation method.
     - ##### AssetCollectorTests.swift
+      Unit tests for the `AssetCollector` class. It does not need to actually collects assets from the file system because the `FileManager` dependency is mocked and just sends the content it pretends to have found.
     - ##### ColorFinderTests.swift
+      Unit tests for the `ColorFinder` class. They check if it can find a color from the code with and without the `#` symbol prefix, if it can detect different appearances etc.
     - ##### ColorSetTests.swift
+      Unit tests for the `ColorSet` struct, or to be more specific, its decoding from JSON.
     - ##### ColorTests.swift
+      Unit tests for the `Color` model. They basically are just the tests for the conversion logic from color components into a hexadecimal rgb string.
     - ##### HexcodeAppTests.swift
+      Unit tests for the `HexcodeApp` entry point object for the app logic. They mainly check the results of the app `run` with different input and call results from dependencies, which are mocked.
     - ##### hexcodeEndToEndTests.swift
+      End-to-end tests for the `hexcode` app. Unlike unit tests, these run the actual app executable on the actual files in the file system, using real dependencies, not mocks. This helps ensure all the real components integrate correctly with each other and the logic still works as intended.
 ## Installation
 1. Clone the repository to your machine
 2. Assuming the folder name "hexcode" has not changed, run in terminal:
