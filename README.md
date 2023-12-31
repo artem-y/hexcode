@@ -1,5 +1,5 @@
 # HEXCODE
-#### Video Demo: <YouTube URL>
+#### Video Demo: https://youtu.be/ZEKs4p--FZ4
 #### Description: 
 <img src="Tests/hexcodeTests/Resources/Assets.xcassets/hexcode_logo.imageset/hexcode_logo@3x.png" width=25% align="center">  
 A tool that finds Xcode color assets by their hex codes. The idea behind this tool is to speed up and ease the process of finding assets that were already added to the project. This helps prevent accidental duplication when there are too many color assets to go through and they are easy to miss because they have different component representations.
