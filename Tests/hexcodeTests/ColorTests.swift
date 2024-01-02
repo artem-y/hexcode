@@ -176,6 +176,25 @@ final class ColorTests: XCTestCase {
         XCTAssertEqual(rgbHex, "195BAB")
     }
 
+    func test_rgbHex_whenFloatComponentCloseToImpresisionPoint_convertsCorrectly() {
+        // Given
+        let sut = SUT(
+            colorSpace: .srgb,
+            components: .init(
+                alpha: "1.0",
+                red: "0.322",
+                green: "0.000",
+                blue: "0.529"
+            )
+        )
+
+        // When
+        let rgbHex = sut.rgbHex
+
+        // Then
+        XCTAssertEqual(rgbHex, "520087")
+    }
+
     func test_rgbHex_withHexAndIntComponents_returnsEmptyString() {
         // Given
         let sut = SUT(
