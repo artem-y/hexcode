@@ -67,7 +67,7 @@ extension ColorAsset.Color {
 
     private func convertIntToHexadecimal(_ component: String) -> String? {
         guard let intComponent = Int(component) else { return nil }
-        return String(format: "%02X", intComponent)
+        return String(format: Self.hexFormatString, intComponent)
     }
 
     private func convertFloatToHexadecimal(_ component: String) -> String? {
@@ -76,12 +76,17 @@ extension ColorAsset.Color {
         let floatComponent = CGFloat(truncating: nsNumberComponent)
         guard floatComponent >= 0.0 && floatComponent <= 1.0 else { return nil }
 
-        let intComponent = Int(floatComponent * 255.0)
-        return String(format: "%02X", intComponent)
+        let intComponent = Int(floatComponent * Self.floatConversionMultiplier)
+        return String(format: Self.hexFormatString, intComponent)
     }
 }
 
+// MARK: - Constants
+
 extension ColorAsset.Color {
+    private static let floatConversionMultiplier: CGFloat = 255.2
+    private static let hexFormatString = "%02X"
+
     private static let formatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.decimalSeparator = "."
