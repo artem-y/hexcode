@@ -9,7 +9,7 @@ struct Hexcode: ParsableCommand {
                   hexcode is a tool that finds Xcode color assets \
                   by their hexadecimal codes.
                   """,
-        version: "hexcode 0.1.0"
+        version: "hexcode 0.1.1"
     )
 
     @Argument
