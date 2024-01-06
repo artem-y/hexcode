@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/artem-y/swifty-test-assertions.git",
       "state" : {
-        "revision" : "d1e99184b5d7b932d12bb4df90efe457117fe8d1",
-        "version" : "0.1.0"
+        "revision" : "2eaaab685e3ade033f39b2496c26ead8aa6376eb",
+        "version" : "0.1.1"
       }
     }
   ],
