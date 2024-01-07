@@ -60,9 +60,7 @@ extension AssetCollector {
 
                     switch contentAtPath {
                     case .colorSet(let colorSet):
-                        let assetName = self.getAssetName(from: path)
-                        let namedColorSet = NamedColorSet(name: assetName, colorSet: colorSet)
-                        return [namedColorSet]
+                        return self.makeNamedColorset(from: colorSet, at: path)
 
                     case .otherDirectory(let subpaths):
                         guard !subpaths.isEmpty else { return [] }
@@ -83,6 +81,12 @@ extension AssetCollector {
         }
 
         return colorSets
+    }
+
+    private func makeNamedColorset(from colorSet: ColorSet, at path: String) -> [NamedColorSet] {
+        let assetName = getAssetName(from: path)
+        let namedColorSet = NamedColorSet(name: assetName, colorSet: colorSet)
+        return [namedColorSet]
     }
 
     private func determineContentType(at path: String) -> PathContentType? {
