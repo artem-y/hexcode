@@ -37,75 +37,75 @@ final class HexcodeAppTests: XCTestCase {
 
     // MARK: - Test run
 
-    func test_run_withoutDirectory_runsInCurrentDirectoryFromFileManager() throws {
+    func test_run_withoutDirectory_runsInCurrentDirectoryFromFileManager() async throws {
         // Given
         let currentDirectory = "/currentDirectory"
         mocks.fileManager.results.currentDirectoryPath = currentDirectory
 
         // When
-        try sut.run(colorHex: "")
+        try await sut.run(colorHex: "")
 
         // Then
         XCTAssertEqual(mocks.fileManager.calls, [.getCurrentDirectoryPath])
         XCTAssertEqual(mocks.assetCollector.calls, [.collectAssetsIn(directory: currentDirectory)])
     }
 
-    func test_run_inDirectory_runsInProvidedDirectory() throws {
+    func test_run_inDirectory_runsInProvidedDirectory() async throws {
         // Given
         let searchDirectory = "/searchDirectory"
 
         // When
-        try sut.run(colorHex: "", in: searchDirectory)
+        try await sut.run(colorHex: "", in: searchDirectory)
 
         // Then
         XCTAssertEqual(mocks.assetCollector.calls, [.collectAssetsIn(directory: searchDirectory)])
     }
 
-    func test_run_whenAssetCollectorThrowsNotADirectoryError_rethrowsError() throws {
+    func test_run_whenAssetCollectorThrowsNotADirectoryError_rethrowsError() async throws {
         // Given
         mocks.assetCollector.results.collectAssets = .failure(AssetCollector.Error.notADirectory)
 
-        Assert(
-            try sut.run(colorHex: blackHexStub), // When
+        await AssertAsync(
+            try await sut.run(colorHex: blackHexStub), // When
             throwsError: AssetCollector.Error.notADirectory // Then
         )
     }
 
-    func test_run_whenAssetCollectorThrowsDirectoryNotFound_rethrowsError() throws {
+    func test_run_whenAssetCollectorThrowsDirectoryNotFound_rethrowsError() async throws {
         // Given
         mocks.assetCollector.results.collectAssets = .failure(AssetCollector.Error.directoryNotFound)
 
-        Assert(
-            try sut.run(colorHex: blackHexStub), // When
+        await AssertAsync(
+            try await sut.run(colorHex: blackHexStub), // When
             throwsError: AssetCollector.Error.directoryNotFound // Then
         )
     }
 
-    func test_run_whenAssetCollectorThrowsNotADirectoryError_doesNotLookForColors() {
+    func test_run_whenAssetCollectorThrowsNotADirectoryError_doesNotLookForColors() async {
         // Given
         mocks.assetCollector.results.collectAssets = .failure(AssetCollector.Error.notADirectory)
 
         // When
-        try? sut.run(colorHex: blackHexStub)
+        try? await sut.run(colorHex: blackHexStub)
 
         // Then
         AssertEmpty(mocks.colorFinder.calls)
         AssertEmpty(mocks.outputs)
     }
 
-    func test_run_whenAssetCollectorThrowsDirectoryNotFound_doesNotLookForColors() {
+    func test_run_whenAssetCollectorThrowsDirectoryNotFound_doesNotLookForColors() async {
         // Given
         mocks.assetCollector.results.collectAssets = .failure(AssetCollector.Error.directoryNotFound)
 
         // When
-        try? sut.run(colorHex: blackHexStub)
+        try? await sut.run(colorHex: blackHexStub)
 
         // Then
         AssertEmpty(mocks.colorFinder.calls)
         AssertEmpty(mocks.outputs)
     }
 
-    func test_run_whenCollectedAssets_callsColorFinderWithCollectedAssets() throws {
+    func test_run_whenCollectedAssets_callsColorFinderWithCollectedAssets() async throws {
         // Given
         let expectedColorSets: [NamedColorSet] = [
             .blueColorHex,
@@ -116,7 +116,7 @@ final class HexcodeAppTests: XCTestCase {
         mocks.assetCollector.results.collectAssets = .success(expectedColorSets)
 
         // When
-        try sut.run(colorHex: colorHex)
+        try await sut.run(colorHex: colorHex)
 
         // Then
         XCTAssertEqual(
@@ -125,13 +125,13 @@ final class HexcodeAppTests: XCTestCase {
         )
     }
 
-    func test_run_whenDidNotCollectAssets_callsColorFinderWithEmptyArray() throws {
+    func test_run_whenDidNotCollectAssets_callsColorFinderWithEmptyArray() async throws {
         // Given
         let colorHex = "#F1F2F3"
         mocks.assetCollector.results.collectAssets = .success([])
 
         // When
-        try sut.run(colorHex: colorHex)
+        try await sut.run(colorHex: colorHex)
 
         // Then
         XCTAssertEqual(
@@ -140,36 +140,36 @@ final class HexcodeAppTests: XCTestCase {
         )
     }
 
-    func test_run_whenSingleColorAssetIsFound_outputsAssetName() throws {
+    func test_run_whenSingleColorAssetIsFound_outputsAssetName() async throws {
         // Given
         let expectedOutput = "white"
         mocks.colorFinder.results.find = [expectedOutput]
 
         // When
-        try sut.run(colorHex: "")
+        try await sut.run(colorHex: "")
 
         // Then
         XCTAssertEqual(mocks.outputs, [expectedOutput])
     }
 
-    func test_run_whenMultipleColorAssetIsFound_outputsAllAssetNames() throws {
+    func test_run_whenMultipleColorAssetIsFound_outputsAllAssetNames() async throws {
         // Given
         let expectedOutputs = ["red", "green", "blue"]
         mocks.colorFinder.results.find = expectedOutputs
 
         // When
-        try sut.run(colorHex: "")
+        try await sut.run(colorHex: "")
 
         // Then
         XCTAssertEqual(mocks.outputs, expectedOutputs)
     }
 
-    func test_run_whenNoColorAssetsFound_outputsNoColorsFoundMessage() throws {
+    func test_run_whenNoColorAssetsFound_outputsNoColorsFoundMessage() async throws {
         // Given
         mocks.colorFinder.results.find = []
 
         // When
-        try sut.run(colorHex: blackHexStub)
+        try await sut.run(colorHex: blackHexStub)
 
         // Then
         XCTAssertEqual(mocks.outputs, ["No \(blackHexStub) color found"])

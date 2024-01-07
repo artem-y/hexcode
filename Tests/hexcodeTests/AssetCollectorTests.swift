@@ -18,7 +18,7 @@ final class AssetCollectorTests: XCTestCase {
 
     // MARK: - Tests
 
-    func test_collectAssets_inAssetCatalogDirectory_findsAssets() throws {
+    func test_collectAssets_inAssetCatalogDirectory_findsAssets() async throws {
         // Given
         let catalogPath = "Assets.xcassets"
         setMockDirectory(at: catalogPath, with: ["whiteColorHex.colorset", "blackColorHex.colorset"])
@@ -26,13 +26,13 @@ final class AssetCollectorTests: XCTestCase {
         setMockAsset(at: catalogPath + "/blackColorHex.colorset", with: ColorSetJSON.black)
 
         // When
-        let assets = try sut.collectAssets(in: catalogPath)
+        let assets = try await sut.collectAssets(in: catalogPath)
 
         // Then
         XCTAssertEqual(assets, [.blackColorHex, .whiteColorHex])
     }
 
-    func test_collectAssets_inDicectoryWithInvalidAssets_findsNothing() throws {
+    func test_collectAssets_inDicectoryWithInvalidAssets_findsNothing() async throws {
         // Given
         let directory = "/some/directory"
 
@@ -46,35 +46,35 @@ final class AssetCollectorTests: XCTestCase {
         setMockFile(at: "\(directory)/notAColor.colorset/text.txt", with: data("hello world"))
 
         // When
-        let assets = try sut.collectAssets(in: directory)
+        let assets = try await sut.collectAssets(in: directory)
 
         // Then
         AssertEmpty(assets)
     }
 
-    func test_collectAssets_inNonExistentDirectory_throwsDirectoryNotFoundError() throws {
+    func test_collectAssets_inNonExistentDirectory_throwsDirectoryNotFoundError() async throws {
         // Given
         let path = "/nonExistentDirectory"
         mocks.fileManager.results.fileExistsAtPath[path] = nil
 
-        Assert(
-            try sut.collectAssets(in: path), // When
+        await AssertAsync(
+            try await sut.collectAssets(in: path), // When
             throwsError: SUT.Error.directoryNotFound // Then
         )
     }
 
-    func test_collectAssets_atPathThatIsFile_throwsNotADirectoryError() throws {
+    func test_collectAssets_atPathThatIsFile_throwsNotADirectoryError() async throws {
         // Given
         let filePath = "/someFile"
         mocks.fileManager.results.fileExistsAtPath[filePath] = .file
 
-        Assert(
-            try sut.collectAssets(in: filePath), // When
+        await AssertAsync(
+            try await sut.collectAssets(in: filePath), // When
             throwsError: SUT.Error.notADirectory // Then
         )
     }
 
-    func test_collectAssets_inCatalogWithMultipleSubdirectories_findsAllAssets() throws {
+    func test_collectAssets_inCatalogWithMultipleSubdirectories_findsAllAssets() async throws {
         // Given
         let catalogPath = "/Resources/AssetsInSubdirectories.xcassets"
         setMockDirectory(at: catalogPath, with: ["OtherColors", "redColorHex.colorset"])
@@ -89,7 +89,7 @@ final class AssetCollectorTests: XCTestCase {
         setMockAsset(at: "\(moreColorsDir)/blueColorHex.colorset", with: ColorSetJSON.blue)
 
         // When
-        let assets = try sut.collectAssets(in: catalogPath)
+        let assets = try await sut.collectAssets(in: catalogPath)
 
         // Then
         XCTAssertEqual(assets, [.blueColorHex, .greenColorHex, .redColorHex])

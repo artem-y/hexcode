@@ -22,8 +22,29 @@ final class FileManagerMock: FileManager {
         var contentsAtPath: [String: Data] = [:]
     }
 
-    private(set) var calls: [Call] = []
+    private(set) var calls: [Call] {
+        get {
+            var calls: [Call] = []
+
+            let semaphore = DispatchSemaphore(value: 0)
+            operationQueue.addOperation { [weak self] in
+                calls = self?._calls ?? []
+                semaphore.signal()
+            }
+            semaphore.wait()
+            
+            return calls
+        }
+        set {
+            operationQueue.addOperation { [weak self] in
+                self?._calls = newValue
+            }
+        }
+    }
     var results = CallResults()
+
+    private var _calls: [Call] = []
+    private let operationQueue = OperationQueue()
 
     func reset() {
         calls = []
