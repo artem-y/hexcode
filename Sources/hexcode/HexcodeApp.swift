@@ -25,9 +25,9 @@ final class HexcodeApp {
     /// - parameter colorHex: Raw input argument for hexadecimal color code.
     /// - parameter directory: Optional custom directory from user input. Defaults to current directory.
     /// - throws: All unhandled errors that can be thrown out to standard output.
-    func run(colorHex: String, in directory: String? = nil) throws {
+    func run(colorHex: String, in directory: String? = nil) async throws {
         let directory = directory ?? fileManager.currentDirectoryPath
-        let colorAssets = try assetCollector.collectAssets(in: directory)
+        let colorAssets = try await assetCollector.collectAssets(in: directory)
         let foundColors = colorFinder.find(colorHex, in: colorAssets)
 
         if foundColors.isEmpty {

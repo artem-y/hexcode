@@ -8,13 +8,13 @@ protocol AssetCollecting {
     /// - parameter directory: Path to the directory to search for color sets.
     /// - throws: Errors when valid directory not found at given path or can't read content.
     /// - returns: Named color sets found in given directory, sorted by name.
-    func collectAssets(in directory: String) throws -> [NamedColorSet]
+    func collectAssets(in directory: String) async throws -> [NamedColorSet]
 }
 
 final class AssetCollector: AssetCollecting {
     var fileManager: FileManager = .default
 
-    func collectAssets(in directory: String) throws -> [NamedColorSet] {
+    func collectAssets(in directory: String) async throws -> [NamedColorSet] {
         var isDirectory: ObjCBool = false
         guard fileManager.fileExists(atPath: directory, isDirectory: &isDirectory) else {
             throw Error.directoryNotFound
@@ -25,7 +25,7 @@ final class AssetCollector: AssetCollecting {
         }
 
         let paths = try fileManager.contentsOfDirectory(atPath: directory)
-        let namedColorSets = findColorSets(at: paths.map { "\(directory)/\($0)"})
+        let namedColorSets = await self.findColorSets(at: paths.map { "\(directory)/\($0)"})
         return namedColorSets.sorted(by: { $0.name < $1.name })
     }
 }
@@ -49,30 +49,37 @@ extension AssetCollector {
 // MARK: - Private
 
 extension AssetCollector {
-    private func findColorSets(at paths: [String]) -> [NamedColorSet] {
-        var colorSets: [NamedColorSet] = []
-        var subPaths: [String] = []
+    private func findColorSets(
+        at paths: [String],
+        alreadyFoundColorSets: [NamedColorSet] = []
+    ) async -> [NamedColorSet] {
+        let colorSets = await withTaskGroup(of: [NamedColorSet].self) { group in
+            for path in paths {
+                group.addTask {
+                    let contentAtPath = self.determineContentType(at: path)
 
-        for path in paths {
-            let contentAtPath = determineContentType(at: path)
+                    switch contentAtPath {
+                    case .colorSet(let colorSet):
+                        let assetName = self.getAssetName(from: path)
+                        let namedColorSet = NamedColorSet(name: assetName, colorSet: colorSet)
+                        return [namedColorSet]
 
-            switch contentAtPath {
-            case .colorSet(let colorSet):
-                let assetName = getAssetName(from: path)
-                let namedColorSet = NamedColorSet(name: assetName, colorSet: colorSet)
-                colorSets.append(namedColorSet)
+                    case .otherDirectory(let subpaths):
+                        guard !subpaths.isEmpty else { return [] }
+                        let fullSubpaths = subpaths.map { "\(path)/\($0)" }
+                        let colorSetsFromSubdirectory = await self.findColorSets(
+                            at: fullSubpaths,
+                            alreadyFoundColorSets: alreadyFoundColorSets
+                        )
+                        return colorSetsFromSubdirectory
 
-            case .otherDirectory(let subpaths):
-                subPaths.append(contentsOf: subpaths.map { "\(path)/\($0)" })
-
-            case .file, .none:
-                continue
+                    case .file, .none:
+                        return []
+                    }
+                }
             }
-        }
 
-        if !subPaths.isEmpty {
-            let colorSetsFromSubdirectory = findColorSets(at: subPaths)
-            colorSets.append(contentsOf: colorSetsFromSubdirectory)
+            return await group.reduce(alreadyFoundColorSets, +)
         }
 
         return colorSets

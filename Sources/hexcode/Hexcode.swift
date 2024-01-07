@@ -1,7 +1,7 @@
 import ArgumentParser
 
 @main
-struct Hexcode: ParsableCommand {
+struct Hexcode: AsyncParsableCommand {
 
     static let configuration = CommandConfiguration(
         commandName: "hexcode",
@@ -28,7 +28,7 @@ struct Hexcode: ParsableCommand {
         }
     }
 
-    func run() throws {
-        try HexcodeApp().run(colorHex: colorHex, in: directory)
+    func run() async throws {
+        try await HexcodeApp().run(colorHex: colorHex, in: directory)
     }
 }
