@@ -33,6 +33,10 @@ Color not found:
 2. Assuming the folder name "hexcode" has not changed, run in terminal:
 ```
 cd hexcode
+```
+### Using Swift Package Manager:
+Then run the following:
+```
 swift build -c release
 mv .build/release/hexcode /usr/local/bin
 ```
@@ -42,7 +46,14 @@ mv .build/release/hexcode /usr/local/bin
 
 Alternatively, it can be moved to some directory other than `/usr/local/bin`, just make sure that directory is included in `$PATH` if you want it visible from anywhere in terminal.  
 Or you can just run it as an executable Swift package [without installation](#running-without-installation), using Swift Package Manager commands.
-### Running without installation
+### Using make:
+From the root of the repository, run the following command:
+```
+sudo make install
+```
+If you want to install it into a directory other than default `/usr/local/bin`, replace it in the `Makefile` with your target directory.
+Just make sure it's added to the PATH.
+### Running without installation:
 From the `hexcode` directory (or passing it as `--package-path`), the command can be run as executable package without previous installation, for example:
 ```
 swift run hexcode e8de2a --directory=$HOME/Documents/myProject
