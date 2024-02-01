@@ -1,16 +1,14 @@
-<!--
-Describe changes in a concise list of bullet points
-Example:
+## Linked issues
 
-### In this PR:
-- updated PR template with commented out optional sections
--->
+#
 
-### In this PR:
-- 
+## In this PR
+-
+-
 
-<!-- If necessary, uncomment and fill other sections: -->
-
-<!-- ### Linked Issue(s): -->
-
-<!-- ### Additional Explanation -->
+## Checklist
+Before making this PR ready to merge:
+- [ ] Checked for duplicate PRs
+- [ ] If related to one or more existing issues, linked the issues
+- [ ] Covered new code with unit tests
+- [ ] Ran the tests and all of them passed
