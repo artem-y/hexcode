@@ -20,6 +20,8 @@ jobs:
       uses: swift-actions/setup-swift@v2
       with:
         swift-version: '5.9'
+    - name: Resolve dependendies dependencies
+      run: swift package resolve
     - name: Build
       run: swift build -v
     - name: Run all tests
