@@ -1,0 +1,19 @@
+
+
+name: Run Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    if: github.event.pull_request.draft == false
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run all tests
+      run: swift test -v
