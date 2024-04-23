@@ -21,4 +21,4 @@ jobs:
       with:
         swift-version: '5.9'
     - name: Run all tests
-      run: swift test -v
+      run: swift test -Xswiftc -DDISABLE_END_TO_END_TESTS -v

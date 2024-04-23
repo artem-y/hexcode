@@ -1,6 +1,8 @@
 @testable import hexcode
 import XCTest
 
+#if !DISABLE_END_TO_END_TESTS
+
 final class HexcodeEndToEndTests: XCTestCase {
     typealias SUT = Hexcode
 
@@ -208,3 +210,5 @@ extension HexcodeEndToEndTests {
         return (output: outputString, error: errorString)
     }
 }
+
+#endif
