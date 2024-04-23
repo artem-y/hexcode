@@ -12,6 +12,7 @@ jobs:
   test:
     if: github.event.pull_request.draft == false
     runs-on: macos-latest
+    timeout-minutes: 15
 
     steps:
     - uses: actions/checkout@v4
@@ -22,4 +23,4 @@ jobs:
     - name: Build
       run: swift build -v
     - name: Run all tests
-      run: swift test -v
+      run: swift test --skip-build -v
