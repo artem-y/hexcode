@@ -11,14 +11,12 @@ on:
 jobs:
   test:
     if: github.event.pull_request.draft == false
-    runs-on: macos-latest
+    runs-on: macos-14
     timeout-minutes: 15
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Swift
-      uses: swift-actions/setup-swift@v2
-      with:
-        swift-version: '5.9'
-    - name: Run all tests
+    - name: Select Xcode
+      run: sudo xcode-select -s /Applications/Xcode_15.3.app/Contents/Developer
+    - name: Run tests
       run: swift test -Xswiftc -DDISABLE_END_TO_END_TESTS -v
