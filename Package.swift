@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "hexcode",
     platforms: [
-        .macOS(.v13),
+        .macOS(.v14),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0"),

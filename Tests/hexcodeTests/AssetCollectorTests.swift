@@ -74,26 +74,26 @@ final class AssetCollectorTests: XCTestCase {
         )
     }
 
-//    func test_collectAssets_inCatalogWithMultipleSubdirectories_findsAllAssets() async throws {
-//        // Given
-//        let catalogPath = "/Resources/AssetsInSubdirectories.xcassets"
-//        setMockDirectory(at: catalogPath, with: ["OtherColors", "redColorHex.colorset"])
-//        setMockAsset(at: "\(catalogPath)/redColorHex.colorset", with: ColorSetJSON.red)
-//
-//        let otherColorsDir = catalogPath + "/OtherColors"
-//        setMockDirectory(at: otherColorsDir, with: ["more_colors", "greenColorHex.colorset"])
-//        setMockAsset(at: "\(otherColorsDir)/greenColorHex.colorset", with: ColorSetJSON.green)
-//
-//        let moreColorsDir = otherColorsDir + "/more_colors"
-//        setMockDirectory(at: moreColorsDir, with: ["blueColorHex.colorset"])
-//        setMockAsset(at: "\(moreColorsDir)/blueColorHex.colorset", with: ColorSetJSON.blue)
-//
-//        // When
-//        let assets = try await sut.collectAssets(in: catalogPath)
-//
-//        // Then
-//        XCTAssertEqual(assets, [.blueColorHex, .greenColorHex, .redColorHex])
-//    }
+    func test_collectAssets_inCatalogWithMultipleSubdirectories_findsAllAssets() async throws {
+        // Given
+        let catalogPath = "/Resources/AssetsInSubdirectories.xcassets"
+        setMockDirectory(at: catalogPath, with: ["OtherColors", "redColorHex.colorset"])
+        setMockAsset(at: "\(catalogPath)/redColorHex.colorset", with: ColorSetJSON.red)
+
+        let otherColorsDir = catalogPath + "/OtherColors"
+        setMockDirectory(at: otherColorsDir, with: ["more_colors", "greenColorHex.colorset"])
+        setMockAsset(at: "\(otherColorsDir)/greenColorHex.colorset", with: ColorSetJSON.green)
+
+        let moreColorsDir = otherColorsDir + "/more_colors"
+        setMockDirectory(at: moreColorsDir, with: ["blueColorHex.colorset"])
+        setMockAsset(at: "\(moreColorsDir)/blueColorHex.colorset", with: ColorSetJSON.blue)
+
+        // When
+        let assets = try await sut.collectAssets(in: catalogPath)
+
+        // Then
+        XCTAssertEqual(assets, [.blueColorHex, .greenColorHex, .redColorHex])
+    }
 }
 
 // MARK: - Private
