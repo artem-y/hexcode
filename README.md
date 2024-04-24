@@ -1,6 +1,14 @@
   
+  
 <img src="Tests/hexcodeTests/Resources/Assets.xcassets/hexcode_logo.imageset/hexcode_logo@3x.png" width=25% align="center">  
 A tool that finds Xcode color assets by their hex codes. The idea behind this tool is to speed up and ease the process of finding assets that were already added to the project. This helps prevent accidental duplication when there are too many color assets to go through and they are easy to miss because they have different component representations.
+
+<p align="center">
+    <br />
+    <img alt-text="Swift Version" src="https://img.shields.io/badge/Swift-5.9-orange.svg">
+    <a href="https://github.com/artem-y/hexcode/releases/latest"><img alt-text="GitHub Release" src="https://img.shields.io/github/v/release/artem-y/hexcode"></a>
+    <img alt-text="Minimal macOS Version" src="https://img.shields.io/badge/macOS-13%2B-e08416">
+</p>
 
 ### ⚠️Disclaimer:
 For now, the tool only supports searching for exact values of color components as ints, floats or hexadecimals, without conversion between settings like content type (sRGB, Display P3, Gray Gamma 2.2 etc.), and ignoring some other settings like Gamut etc.  
@@ -25,6 +33,10 @@ Color not found:
 2. Assuming the folder name "hexcode" has not changed, run in terminal:
 ```
 cd hexcode
+```
+### Using Swift Package Manager:
+Then run the following:
+```
 swift build -c release
 mv .build/release/hexcode /usr/local/bin
 ```
@@ -34,7 +46,14 @@ mv .build/release/hexcode /usr/local/bin
 
 Alternatively, it can be moved to some directory other than `/usr/local/bin`, just make sure that directory is included in `$PATH` if you want it visible from anywhere in terminal.  
 Or you can just run it as an executable Swift package [without installation](#running-without-installation), using Swift Package Manager commands.
-### Running without installation
+### Using make:
+From the root of the repository, run the following command:
+```
+sudo make install
+```
+If you want to install it into a directory other than default `/usr/local/bin`, replace it in the `Makefile` with your target directory.
+Just make sure it's added to the PATH.
+### Running without installation:
 From the `hexcode` directory (or passing it as `--package-path`), the command can be run as executable package without previous installation, for example:
 ```
 swift run hexcode e8de2a --directory=$HOME/Documents/myProject
