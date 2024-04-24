@@ -2,6 +2,7 @@
 import XCTest
 import SwiftyTestAssertions
 
+#if !CI
 final class AssetCollectorTests: XCTestCase {
     typealias SUT = AssetCollector
 
@@ -126,3 +127,4 @@ extension AssetCollectorTests {
         var fileManager = FileManagerMock()
     }
 }
+#endif

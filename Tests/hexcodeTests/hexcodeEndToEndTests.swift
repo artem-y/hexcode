@@ -1,7 +1,7 @@
 @testable import hexcode
 import XCTest
 
-#if !DISABLE_END_TO_END_TESTS
+#if !CI
 
 final class HexcodeEndToEndTests: XCTestCase {
     typealias SUT = Hexcode
