@@ -24,47 +24,21 @@ final class FileManagerMock: FileManager {
 
     private(set) var calls: [Call] {
         get {
-            var calls: [Call] = []
-
-            let semaphore = DispatchSemaphore(value: 0)
-            operationQueue.addOperation { [weak self] in
-                calls = self?._calls ?? []
-                semaphore.signal()
-            }
-            semaphore.wait()
-            
-            return calls
+            callsLock.lock()
+            defer { callsLock.unlock() }
+            return _calls
         }
         set {
-            operationQueue.addOperation { [weak self] in
-                self?._calls = newValue
-            }
+            callsLock.lock()
+            defer { callsLock.unlock() }
+            _calls = newValue
         }
     }
 
-    var results: CallResults {
-        get {
-            var results: CallResults = .init()
+    var results = CallResults()
 
-            let semaphore = DispatchSemaphore(value: 0)
-            operationQueue.addOperation { [weak self] in
-                results = self?._results ?? .init()
-                semaphore.signal()
-            }
-            semaphore.wait()
-
-            return results
-        }
-        set {
-            operationQueue.addOperation { [weak self] in
-                self?._results = newValue
-            }
-        }
-    }
-
+    private let callsLock = NSLock()
     private var _calls: [Call] = []
-    private var _results = CallResults()
-    private let operationQueue = OperationQueue()
 
     func reset() {
         calls = []
