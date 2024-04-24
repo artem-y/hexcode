@@ -41,9 +41,29 @@ final class FileManagerMock: FileManager {
             }
         }
     }
-    var results = CallResults()
+
+    var results: CallResults {
+        get {
+            var results: CallResults = .init()
+
+            let semaphore = DispatchSemaphore(value: 0)
+            operationQueue.addOperation { [weak self] in
+                results = self?._results ?? .init()
+                semaphore.signal()
+            }
+            semaphore.wait()
+
+            return results
+        }
+        set {
+            operationQueue.addOperation { [weak self] in
+                self?._results = newValue
+            }
+        }
+    }
 
     private var _calls: [Call] = []
+    private var _results = CallResults()
     private let operationQueue = OperationQueue()
 
     func reset() {
