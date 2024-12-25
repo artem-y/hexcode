@@ -166,6 +166,37 @@ final class HexcodeEndToEndTests: XCTestCase {
         XCTAssertEqual(output, "")
         XCTAssert(error.contains("Error: Color hex contains invalid symbols\n"))
     }
+
+    func test_hexcode_findDuplicates_withMultipleDuplicates_findsAllDuplicates() throws {
+        let arguments = ["find-duplicates", "--directory=\(resourcePath)/AssetsWithDuplicates.xcassets"]
+
+        let (output, error) = try runHexcode(arguments: arguments)
+
+        XCTAssertEqual(
+            output,
+            """
+            #E6E6FA lavender
+            #E6E6FA OtherColors/lavenderHex
+            #E6E6FA OtherColors/palePurpleHex
+            --
+            #F4EA2F darkSunflowerDuplicateHex
+            #F4EA2F sunflowerDuplicateHex (Dark)\n
+            """
+        )
+        XCTAssertEqual(error, "")
+    }
+
+    func test_hexcode_findDuplicates_inDicectoryWithoutDuplicates_outputsNoDuplicatesFoundMessage() throws {
+        // Given
+        let arguments = ["find-duplicates", "--directory=\(resourcePath)/AssetsInSubdirectories.xcassets"]
+
+        // When
+        let (output, error) = try runHexcode(arguments: arguments)
+
+        // Then
+        XCTAssertEqual(output, "No duplicates found\n")
+        XCTAssertEqual(error, "")
+    }
 }
 
 // MARK: - Private
