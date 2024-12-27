@@ -1,15 +1,13 @@
 import ArgumentParser
 
-@main
-struct Hexcode: AsyncParsableCommand {
+struct FindColor: AsyncParsableCommand {
 
     static let configuration = CommandConfiguration(
-        commandName: "hexcode",
+        commandName: "find-color",
         abstract: """
-                  hexcode is a tool that finds Xcode color assets \
+                  Default subcommand that finds Xcode color assets \
                   by their hexadecimal codes.
-                  """,
-        version: "hexcode 0.1.1"
+                  """
     )
 
     @Argument
@@ -29,6 +27,6 @@ struct Hexcode: AsyncParsableCommand {
     }
 
     func run() async throws {
-        try await HexcodeApp().run(colorHex: colorHex, in: directory)
+        try await HexcodeApp().runFindColor(colorHex: colorHex, in: directory)
     }
 }

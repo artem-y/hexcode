@@ -43,7 +43,7 @@ final class HexcodeAppTests: XCTestCase {
         mocks.fileManager.results.currentDirectoryPath = currentDirectory
 
         // When
-        try await sut.run(colorHex: "")
+        try await sut.runFindColor(colorHex: "")
 
         // Then
         XCTAssertEqual(mocks.fileManager.calls, [.getCurrentDirectoryPath])
@@ -55,7 +55,7 @@ final class HexcodeAppTests: XCTestCase {
         let searchDirectory = "/searchDirectory"
 
         // When
-        try await sut.run(colorHex: "", in: searchDirectory)
+        try await sut.runFindColor(colorHex: "", in: searchDirectory)
 
         // Then
         XCTAssertEqual(mocks.assetCollector.calls, [.collectAssetsIn(directory: searchDirectory)])
@@ -66,7 +66,7 @@ final class HexcodeAppTests: XCTestCase {
         mocks.assetCollector.results.collectAssets = .failure(AssetCollector.Error.notADirectory)
 
         await AssertAsync(
-            try await sut.run(colorHex: blackHexStub), // When
+            try await sut.runFindColor(colorHex: blackHexStub), // When
             throwsError: AssetCollector.Error.notADirectory // Then
         )
     }
@@ -76,7 +76,7 @@ final class HexcodeAppTests: XCTestCase {
         mocks.assetCollector.results.collectAssets = .failure(AssetCollector.Error.directoryNotFound)
 
         await AssertAsync(
-            try await sut.run(colorHex: blackHexStub), // When
+            try await sut.runFindColor(colorHex: blackHexStub), // When
             throwsError: AssetCollector.Error.directoryNotFound // Then
         )
     }
@@ -86,7 +86,7 @@ final class HexcodeAppTests: XCTestCase {
         mocks.assetCollector.results.collectAssets = .failure(AssetCollector.Error.notADirectory)
 
         // When
-        try? await sut.run(colorHex: blackHexStub)
+        try? await sut.runFindColor(colorHex: blackHexStub)
 
         // Then
         AssertEmpty(mocks.colorFinder.calls)
@@ -98,7 +98,7 @@ final class HexcodeAppTests: XCTestCase {
         mocks.assetCollector.results.collectAssets = .failure(AssetCollector.Error.directoryNotFound)
 
         // When
-        try? await sut.run(colorHex: blackHexStub)
+        try? await sut.runFindColor(colorHex: blackHexStub)
 
         // Then
         AssertEmpty(mocks.colorFinder.calls)
@@ -116,7 +116,7 @@ final class HexcodeAppTests: XCTestCase {
         mocks.assetCollector.results.collectAssets = .success(expectedColorSets)
 
         // When
-        try await sut.run(colorHex: colorHex)
+        try await sut.runFindColor(colorHex: colorHex)
 
         // Then
         XCTAssertEqual(
@@ -131,7 +131,7 @@ final class HexcodeAppTests: XCTestCase {
         mocks.assetCollector.results.collectAssets = .success([])
 
         // When
-        try await sut.run(colorHex: colorHex)
+        try await sut.runFindColor(colorHex: colorHex)
 
         // Then
         XCTAssertEqual(
@@ -146,7 +146,7 @@ final class HexcodeAppTests: XCTestCase {
         mocks.colorFinder.results.find = [expectedOutput]
 
         // When
-        try await sut.run(colorHex: "")
+        try await sut.runFindColor(colorHex: "")
 
         // Then
         XCTAssertEqual(mocks.outputs, [expectedOutput])
@@ -158,7 +158,7 @@ final class HexcodeAppTests: XCTestCase {
         mocks.colorFinder.results.find = expectedOutputs
 
         // When
-        try await sut.run(colorHex: "")
+        try await sut.runFindColor(colorHex: "")
 
         // Then
         XCTAssertEqual(mocks.outputs, expectedOutputs)
@@ -169,7 +169,7 @@ final class HexcodeAppTests: XCTestCase {
         mocks.colorFinder.results.find = []
 
         // When
-        try await sut.run(colorHex: blackHexStub)
+        try await sut.runFindColor(colorHex: blackHexStub)
 
         // Then
         XCTAssertEqual(mocks.outputs, ["No \(blackHexStub) color found"])
