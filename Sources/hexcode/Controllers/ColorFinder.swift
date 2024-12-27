@@ -5,6 +5,12 @@ protocol ColorFinding {
     /// - parameter colorSets: Color sets to check for matching hex color code.
     /// - returns: Names of color sets with matching colors. Empty if none found.
     func find(_ hex: String, in colorSets: [NamedColorSet]) -> [String]
+
+
+    /// Searches the collection of named color sets for colors matching the same hex equivalent.
+    /// - Parameter colorSets: Color sets to check for duplicate hex values.
+    /// - Returns: Hexadecimal color codes with arrays of matching color duplicates. Empty if none found.
+    func findDuplicates(in colorSets: [NamedColorSet]) -> [String: [String]]
 }
 
 final class ColorFinder: ColorFinding {
@@ -27,6 +33,10 @@ final class ColorFinder: ColorFinding {
 
                 return namedSet.name + " (\(joined(appearances)))"
             }
+    }
+
+    func findDuplicates(in colorSets: [NamedColorSet]) -> [String: [String]] {
+        [:]
     }
 }
 

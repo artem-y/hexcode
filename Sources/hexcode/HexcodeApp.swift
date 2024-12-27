@@ -45,7 +45,21 @@ final class HexcodeApp {
     /// - throws: All unhandled errors that can be thrown out to standard output.
     func runFindDuplicates(in directory: String? = nil) async throws {
         let directory = directory ?? fileManager.currentDirectoryPath
-        // TODO: Ipmlememnt underlying logic of the "find-duplicates" command
-        output("No duplicates found")
+        let colorAssets = try await assetCollector.collectAssets(in: directory)
+        let foundDuplicates = colorFinder.findDuplicates(in: colorAssets)
+
+        if foundDuplicates.isEmpty {
+            output("No duplicates found")
+            return
+        }
+
+        foundDuplicates
+            .sorted { $0.key < $1.key }
+            .forEach { duplicate in
+
+            duplicate.value.forEach { color in
+                output("#\(duplicate.key) \(color)")
+            }
+        }
     }
 }
