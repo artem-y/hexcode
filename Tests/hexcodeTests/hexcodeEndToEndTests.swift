@@ -186,6 +186,21 @@ final class HexcodeEndToEndTests: XCTestCase {
         XCTAssertEqual(error, "")
     }
 
+    func test_hexcode_findDuplicates_withSingleDuplicate_outputsDuplicateWithoutSeparator() throws {
+        let arguments = ["find-duplicates", "--directory=\(resourcePath)/AssetsWithDuplicates.xcassets/OtherColors"]
+
+        let (output, error) = try runHexcode(arguments: arguments)
+
+        XCTAssertEqual(
+            output,
+            """
+            #E6E6FA lavenderHex
+            #E6E6FA palePurpleHex\n
+            """
+        )
+        XCTAssertEqual(error, "")
+    }
+
     func test_hexcode_findDuplicates_inDicectoryWithoutDuplicates_outputsNoDuplicatesFoundMessage() throws {
         // Given
         let arguments = ["find-duplicates", "--directory=\(resourcePath)/AssetsInSubdirectories.xcassets"]

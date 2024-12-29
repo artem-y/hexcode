@@ -53,13 +53,22 @@ final class HexcodeApp {
             return
         }
 
+        var hasMoreThanOneDuplicate = false
         foundDuplicates
             .sorted { $0.key < $1.key }
             .forEach { duplicate in
 
-            duplicate.value.forEach { color in
-                output("#\(duplicate.key) \(color)")
+                if hasMoreThanOneDuplicate {
+                    output("--")
+                }
+
+                duplicate.value.forEach { color in
+                    output("#\(duplicate.key) \(color)")
+                }
+
+                if !hasMoreThanOneDuplicate {
+                    hasMoreThanOneDuplicate = true
+                }
             }
-        }
     }
 }
