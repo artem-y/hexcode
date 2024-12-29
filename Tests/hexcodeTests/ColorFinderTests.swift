@@ -128,4 +128,29 @@ final class ColorFinderTests: XCTestCase {
         // Then
         XCTAssertEqual(colors, ["cyanColorHex"])
     }
+
+    // MARK: - Test find duplicates
+
+    func test_findDuplicates_inColorSetsWithMulticolorDuplicate_findsExpectedDuplicates() {
+        // When
+        let duplicates = sut.findDuplicates(in: [.defaultTextColorHex, .brandBlackColorHex])
+
+        // Then
+        XCTAssertEqual(duplicates, ["171717": ["brandBlackColorHex", "defaultTextHex (Any, Light)"]])
+    }
+
+    func test_findDuplicates_inColorSetsWithSingularDuplicates_findsExpectedDuplicates() {
+        // Given
+        let duplicatedWhite = NamedColorSet(
+            name: "duplicatedWhite",
+            colorSet: .Universal.Singular.white
+        )
+        let colorSets = [.whiteColorHex, .blackColorHex, duplicatedWhite]
+
+        // When
+        let colors = sut.findDuplicates(in: colorSets)
+
+        // Then
+        XCTAssertEqual(colors, ["FFFFFF": ["duplicatedWhite", "whiteColorHex"]])
+    }
 }

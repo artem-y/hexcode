@@ -36,7 +36,65 @@ final class ColorFinder: ColorFinding {
     }
 
     func findDuplicates(in colorSets: [NamedColorSet]) -> [String: [String]] {
-        [:]
+
+        var duplicates: [String: [String]] = [:]
+        let lastColorSetIndex = colorSets.count - 1
+
+        for currentColorSetIndex in colorSets.indices {
+            let colorSet = colorSets[currentColorSetIndex]
+            let colors = colorSet.colorSet.colors
+
+            if currentColorSetIndex == lastColorSetIndex {
+                continue
+            }
+
+            for color in colors {
+                var colorNames: [String] = []
+                let rgbHex = color.color.rgbHex
+                let nextIndex = currentColorSetIndex + 1
+
+                for otherColor in colorSets[nextIndex...] {
+                    let appearanceNames = findAppearances(
+                        for: rgbHex,
+                        in: otherColor.colorSet.colors
+                    )
+
+                    if appearanceNames.isEmpty {
+                        continue
+                    }
+
+                    var name = otherColor.name
+
+                    if appearanceNames.count < otherColor.colorSet.colors.count {
+                        name += " (\(joined(appearanceNames)))"
+                    }
+
+                    colorNames.append(name)
+                }
+
+                if !colorNames.isEmpty {
+                    let currentColorSetAppearances = findAppearances(
+                        for: rgbHex,
+                        in: colors
+                    )
+
+                    var currentColorSetName = colorSet.name
+
+                    if currentColorSetAppearances.count < colors.count {
+                        currentColorSetName += " (\(joined(currentColorSetAppearances)))"
+                    }
+
+                    colorNames.append(currentColorSetName)
+
+                    if duplicates[rgbHex] == nil {
+                        duplicates[rgbHex] = colorNames.sorted()
+                    }
+                }
+
+            }
+        }
+
+        return duplicates
     }
 }
 
