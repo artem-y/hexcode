@@ -25,7 +25,10 @@ final class AssetCollector: AssetCollecting {
         }
 
         let paths = try fileManager.contentsOfDirectory(atPath: directory)
-        let namedColorSets = await self.findColorSets(at: paths.map { "\(directory)/\($0)"})
+        let namedColorSets = await self.findColorSets(
+            at: paths.map { "\(directory)/\($0)"},
+            in: directory
+        )
         return namedColorSets.sorted(by: { $0.name < $1.name })
     }
 }
@@ -51,6 +54,7 @@ extension AssetCollector {
 extension AssetCollector {
     private func findColorSets(
         at paths: [String],
+        in searchRootDirectory: String,
         alreadyFoundColorSets: [NamedColorSet] = []
     ) async -> [NamedColorSet] {
         let colorSets = await withTaskGroup(of: [NamedColorSet].self) { group in
@@ -60,13 +64,18 @@ extension AssetCollector {
 
                     switch contentAtPath {
                     case .colorSet(let colorSet):
-                        return self.makeNamedColorset(from: colorSet, at: path)
+                        return self.makeNamedColorset(
+                            from: colorSet,
+                            at: path,
+                            in: searchRootDirectory
+                        )
 
                     case .otherDirectory(let subpaths):
                         guard !subpaths.isEmpty else { return [] }
                         let fullSubpaths = subpaths.map { "\(path)/\($0)" }
                         let colorSetsFromSubdirectory = await self.findColorSets(
                             at: fullSubpaths,
+                            in: searchRootDirectory,
                             alreadyFoundColorSets: alreadyFoundColorSets
                         )
                         return colorSetsFromSubdirectory
@@ -83,8 +92,13 @@ extension AssetCollector {
         return colorSets
     }
 
-    private func makeNamedColorset(from colorSet: ColorSet, at path: String) -> [NamedColorSet] {
-        let assetName = getAssetName(from: path)
+    private func makeNamedColorset(
+        from colorSet: ColorSet,
+        at path: String,
+        in searchRootDirectory: String
+    ) -> [NamedColorSet] {
+
+        let assetName = getAssetName(from: path, in: searchRootDirectory)
         let namedColorSet = NamedColorSet(name: assetName, colorSet: colorSet)
         return [namedColorSet]
     }
@@ -105,10 +119,11 @@ extension AssetCollector {
         try fileManager.contentsOfDirectory(atPath: directory)
     }
 
-    private func getAssetName(from path: String) -> String {
-        URL(filePath: path)
+    private func getAssetName(from path: String, in searchRootDirectory: String) -> String {
+        let trimmedPath = String(path.trimmingPrefix(searchRootDirectory + "/"))
+        return URL(filePath: trimmedPath)
             .deletingPathExtension()
-            .lastPathComponent
+            .relativeString
     }
 
     private func readColorSet(at path: String) -> ColorSet? {

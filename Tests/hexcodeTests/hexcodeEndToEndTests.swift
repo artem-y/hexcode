@@ -72,7 +72,7 @@ final class HexcodeEndToEndTests: XCTestCase {
         let (output, error) = try runHexcode(arguments: arguments)
 
         // Then
-        XCTAssertEqual(output, "blueColorHex\n")
+        XCTAssertEqual(output, "OtherColors/more_colors/blueColorHex\n")
         XCTAssertEqual(error, "")
     }
 
@@ -175,9 +175,9 @@ final class HexcodeEndToEndTests: XCTestCase {
         XCTAssertEqual(
             output,
             """
-            #E6E6FA lavender
             #E6E6FA OtherColors/lavenderHex
             #E6E6FA OtherColors/palePurpleHex
+            #E6E6FA lavender
             --
             #F4EA2F darkSunflowerDuplicateHex
             #F4EA2F sunflowerDuplicateHex (Dark)\n
