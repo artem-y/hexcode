@@ -106,17 +106,9 @@ extension AssetCollector {
     }
 
     private func getAssetName(from path: String) -> String {
-        makeURL(from: path)
+        URL(filePath: path)
             .deletingPathExtension()
             .lastPathComponent
-    }
-
-    private func makeURL(from path: String) -> URL {
-        if #available(macOS 13.0, *) {
-            return URL(filePath: path)
-        } else {
-            return URL(fileURLWithPath: path)
-        }
     }
 
     private func readColorSet(at path: String) -> ColorSet? {
