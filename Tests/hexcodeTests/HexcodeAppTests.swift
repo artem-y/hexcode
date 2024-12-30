@@ -35,9 +35,9 @@ final class HexcodeAppTests: XCTestCase {
         XCTAssertEqual(mocks.assetCollector.calls, [.setFileManager(mocks.fileManager)])
     }
 
-    // MARK: - Test run
+    // MARK: - Test runFindColor
 
-    func test_run_withoutDirectory_runsInCurrentDirectoryFromFileManager() async throws {
+    func test_runFindColor_withoutDirectory_runsInCurrentDirectoryFromFileManager() async throws {
         // Given
         let currentDirectory = "/currentDirectory"
         mocks.fileManager.results.currentDirectoryPath = currentDirectory
@@ -50,7 +50,7 @@ final class HexcodeAppTests: XCTestCase {
         XCTAssertEqual(mocks.assetCollector.calls, [.collectAssetsIn(directory: currentDirectory)])
     }
 
-    func test_run_inDirectory_runsInProvidedDirectory() async throws {
+    func test_runFindColor_inDirectory_runsInProvidedDirectory() async throws {
         // Given
         let searchDirectory = "/searchDirectory"
 
@@ -61,7 +61,7 @@ final class HexcodeAppTests: XCTestCase {
         XCTAssertEqual(mocks.assetCollector.calls, [.collectAssetsIn(directory: searchDirectory)])
     }
 
-    func test_run_whenAssetCollectorThrowsNotADirectoryError_rethrowsError() async throws {
+    func test_runFindColor_whenAssetCollectorThrowsNotADirectoryError_rethrowsError() async throws {
         // Given
         mocks.assetCollector.results.collectAssets = .failure(AssetCollector.Error.notADirectory)
 
@@ -71,7 +71,7 @@ final class HexcodeAppTests: XCTestCase {
         )
     }
 
-    func test_run_whenAssetCollectorThrowsDirectoryNotFound_rethrowsError() async throws {
+    func test_runFindColor_whenAssetCollectorThrowsDirectoryNotFound_rethrowsError() async throws {
         // Given
         mocks.assetCollector.results.collectAssets = .failure(AssetCollector.Error.directoryNotFound)
 
@@ -81,7 +81,7 @@ final class HexcodeAppTests: XCTestCase {
         )
     }
 
-    func test_run_whenAssetCollectorThrowsNotADirectoryError_doesNotLookForColors() async {
+    func test_runFindColor_whenAssetCollectorThrowsNotADirectoryError_doesNotLookForColors() async {
         // Given
         mocks.assetCollector.results.collectAssets = .failure(AssetCollector.Error.notADirectory)
 
@@ -93,7 +93,7 @@ final class HexcodeAppTests: XCTestCase {
         AssertEmpty(mocks.outputs)
     }
 
-    func test_run_whenAssetCollectorThrowsDirectoryNotFound_doesNotLookForColors() async {
+    func test_runFindColor_whenAssetCollectorThrowsDirectoryNotFound_doesNotLookForColors() async {
         // Given
         mocks.assetCollector.results.collectAssets = .failure(AssetCollector.Error.directoryNotFound)
 
@@ -105,7 +105,7 @@ final class HexcodeAppTests: XCTestCase {
         AssertEmpty(mocks.outputs)
     }
 
-    func test_run_whenCollectedAssets_callsColorFinderWithCollectedAssets() async throws {
+    func test_runFindColor_whenCollectedAssets_callsColorFinderWithCollectedAssets() async throws {
         // Given
         let expectedColorSets: [NamedColorSet] = [
             .blueColorHex,
@@ -125,7 +125,7 @@ final class HexcodeAppTests: XCTestCase {
         )
     }
 
-    func test_run_whenDidNotCollectAssets_callsColorFinderWithEmptyArray() async throws {
+    func test_runFindColor_whenDidNotCollectAssets_callsColorFinderWithEmptyArray() async throws {
         // Given
         let colorHex = "#F1F2F3"
         mocks.assetCollector.results.collectAssets = .success([])
@@ -140,7 +140,7 @@ final class HexcodeAppTests: XCTestCase {
         )
     }
 
-    func test_run_whenSingleColorAssetIsFound_outputsAssetName() async throws {
+    func test_runFindColor_whenSingleColorAssetIsFound_outputsAssetName() async throws {
         // Given
         let expectedOutput = "white"
         mocks.colorFinder.results.find = [expectedOutput]
@@ -152,7 +152,7 @@ final class HexcodeAppTests: XCTestCase {
         XCTAssertEqual(mocks.outputs, [expectedOutput])
     }
 
-    func test_run_whenMultipleColorAssetIsFound_outputsAllAssetNames() async throws {
+    func test_runFindColor_whenMultipleColorAssetIsFound_outputsAllAssetNames() async throws {
         // Given
         let expectedOutputs = ["red", "green", "blue"]
         mocks.colorFinder.results.find = expectedOutputs
@@ -164,7 +164,7 @@ final class HexcodeAppTests: XCTestCase {
         XCTAssertEqual(mocks.outputs, expectedOutputs)
     }
 
-    func test_run_whenNoColorAssetsFound_outputsNoColorsFoundMessage() async throws {
+    func test_runFindColor_whenNoColorAssetsFound_outputsNoColorsFoundMessage() async throws {
         // Given
         mocks.colorFinder.results.find = []
 
@@ -173,6 +173,58 @@ final class HexcodeAppTests: XCTestCase {
 
         // Then
         XCTAssertEqual(mocks.outputs, ["No \(blackHexStub) color found"])
+    }
+
+    // MARK: Test runFindDuplicates
+
+    func test_runFindDuplicates_whenSingleDuplicateFound_outputsDuplicateHexAndAssetNames() async throws {
+        // Given
+        mocks.colorFinder.results.findDuplicates = ["000000": ["snowWhite", "white"]]
+
+        // When
+        try await sut.runFindDuplicates()
+
+        // Then
+        XCTAssertEqual(mocks.outputs, [
+            "#000000 snowWhite",
+            "#000000 white",
+        ])
+    }
+
+    func test_runFindDuplicates_whenNoDuplicateFound_outputsNoDuplicatesFoundMessage() async throws {
+        // Given
+        mocks.colorFinder.results.findDuplicates = [:]
+
+        // When
+        try await sut.runFindDuplicates()
+
+        // Then
+        XCTAssertEqual(mocks.outputs, ["No duplicates found"])
+    }
+
+    func test_runFindDuplicates_whenMultipleDuplicatesFound_outputsDuplicatesWithSeparator() async throws {
+        // Given
+        mocks.colorFinder.results.findDuplicates = [
+            "FF00FF": ["magenta", "accentColor"],
+            "000000": ["snowWhite", "white"],
+            "FFFFFF": ["black", "darkestHex", "text (Any, Light)"]
+        ]
+
+        // When
+        try await sut.runFindDuplicates()
+
+        // Then
+        XCTAssertEqual(mocks.outputs, [
+            "#000000 snowWhite",
+            "#000000 white",
+            "--",
+            "#FF00FF magenta",
+            "#FF00FF accentColor",
+            "--",
+            "#FFFFFF black",
+            "#FFFFFF darkestHex",
+            "#FFFFFF text (Any, Light)",
+        ])
     }
 }
 

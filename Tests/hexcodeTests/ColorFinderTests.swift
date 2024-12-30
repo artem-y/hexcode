@@ -131,7 +131,7 @@ final class ColorFinderTests: XCTestCase {
 
     // MARK: - Test find duplicates
 
-    func test_findDuplicates_inColorSetsWithMulticolorDuplicate_findsExpectedDuplicates() {
+    func test_findDuplicates_inColorSetsWithMulticolorDuplicate_findsExpectedDuplicateValues() {
         // When
         let duplicates = sut.findDuplicates(in: [.defaultTextColorHex, .brandBlackColorHex])
 
@@ -139,18 +139,60 @@ final class ColorFinderTests: XCTestCase {
         XCTAssertEqual(duplicates, ["171717": ["brandBlackColorHex", "defaultTextHex (Any, Light)"]])
     }
 
-    func test_findDuplicates_inColorSetsWithSingularDuplicates_findsExpectedDuplicates() {
+    func test_findDuplicates_inColorSetsWithSingularDuplicate_findsExpectedDuplicateValues() {
         // Given
         let duplicatedWhite = NamedColorSet(
             name: "duplicatedWhite",
             colorSet: .Universal.Singular.white
         )
-        let colorSets = [.whiteColorHex, .blackColorHex, duplicatedWhite]
+        let colorSets: [NamedColorSet] = [.whiteColorHex, .blackColorHex, duplicatedWhite]
 
         // When
         let colors = sut.findDuplicates(in: colorSets)
 
         // Then
         XCTAssertEqual(colors, ["FFFFFF": ["duplicatedWhite", "whiteColorHex"]])
+    }
+
+    func test_findDuplicates_inColorSetsWithMultipleDuplicates_returnsSortedExpectedDuplicateValues() {
+        // Given
+        var yellow: NamedColorSet = .sunflowerColorHex
+        yellow.name = "yellow"
+
+        var snowWhite: NamedColorSet = .whiteColorHex
+        snowWhite.name = "snowWhite"
+
+        let colorSets: [NamedColorSet] = [
+            .blueColorHex,
+            .sunflowerColorHex,
+            .whiteColorHex,
+            .blackColorHex,
+            yellow,
+            .redColorHex,
+            snowWhite,
+            .greenColorHex,
+            .defaultTextColorHex,
+        ]
+
+        // When
+        let colors = sut.findDuplicates(in: colorSets)
+
+        // Then
+        XCTAssertEqual(colors, [
+            "F4EA2F": ["sunflowerHex (Dark)", "yellow (Dark)"],
+            "FFFFFF": ["snowWhite", "whiteColorHex"],
+            "E8DE2A": ["sunflowerHex (Any)", "yellow (Any)"],
+        ])
+    }
+
+    func test_findDuplicates_inColorSetWithNoDuplicates_returnsEmptyDictionary() {
+        // Given
+        let colorSets: [NamedColorSet] = [.redColorHex, .greenColorHex, .blueColorHex]
+
+        // When
+        let colors = sut.findDuplicates(in: colorSets)
+
+        // Then
+        AssertEmpty(colors)
     }
 }
