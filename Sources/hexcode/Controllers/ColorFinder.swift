@@ -40,18 +40,19 @@ final class ColorFinder: ColorFinding {
         var duplicates: [String: [String]] = [:]
         let lastColorSetIndex = colorSets.count - 1
 
-        for currentColorSetIndex in colorSets.indices {
+        for currentColorSetIndex in 0...lastColorSetIndex {
             let colorSet = colorSets[currentColorSetIndex]
             let colors = colorSet.colorSet.colors
-
-            if currentColorSetIndex == lastColorSetIndex {
-                continue
-            }
+            let nextIndex = currentColorSetIndex + 1
 
             for color in colors {
-                var colorNames: [String] = []
                 let rgbHex = color.color.rgbHex
-                let nextIndex = currentColorSetIndex + 1
+
+                if duplicates.keys.contains(rgbHex) {
+                    continue
+                }
+                
+                var colorNames: [String] = []
 
                 for otherColor in colorSets[nextIndex...] {
                     let appearanceNames = findAppearances(
@@ -77,6 +78,10 @@ final class ColorFinder: ColorFinding {
                         for: rgbHex,
                         in: colors
                     )
+                    
+                    if currentColorSetAppearances.isEmpty {
+                        break
+                    }
 
                     var currentColorSetName = colorSet.name
 
