@@ -72,7 +72,7 @@ final class HexcodeEndToEndTests: XCTestCase {
         let (output, error) = try runHexcode(arguments: arguments)
 
         // Then
-        XCTAssertEqual(output, "blueColorHex\n")
+        XCTAssertEqual(output, "OtherColors/more_colors/blueColorHex\n")
         XCTAssertEqual(error, "")
     }
 
@@ -165,6 +165,64 @@ final class HexcodeEndToEndTests: XCTestCase {
         // Then
         XCTAssertEqual(output, "")
         XCTAssert(error.contains("Error: Color hex contains invalid symbols\n"))
+    }
+
+    func test_hexcode_findDuplicates_withMultipleDuplicates_findsAllDuplicates() throws {
+        let arguments = ["find-duplicates", "--directory=\(resourcePath)/AssetsWithDuplicates.xcassets"]
+
+        let (output, error) = try runHexcode(arguments: arguments)
+
+        XCTAssertEqual(
+            output,
+            """
+            #E6E6FA OtherColors/lavenderHex
+            #E6E6FA OtherColors/palePurpleHex
+            #E6E6FA lavender
+            --
+            #F4EA2F darkSunflowerDuplicateHex
+            #F4EA2F sunflowerDuplicateHex (Dark)\n
+            """
+        )
+        XCTAssertEqual(error, "")
+    }
+
+    func test_hexcode_findDuplicates_withSingleDuplicate_outputsDuplicateWithoutSeparator() throws {
+        let arguments = ["find-duplicates", "--directory=\(resourcePath)/AssetsWithDuplicates.xcassets/OtherColors"]
+
+        let (output, error) = try runHexcode(arguments: arguments)
+
+        XCTAssertEqual(
+            output,
+            """
+            #E6E6FA lavenderHex
+            #E6E6FA palePurpleHex\n
+            """
+        )
+        XCTAssertEqual(error, "")
+    }
+
+    func test_hexcode_findDuplicates_inDicectoryWithoutDuplicates_outputsNoDuplicatesFoundMessage() throws {
+        // Given
+        let arguments = ["find-duplicates", "--directory=\(resourcePath)/AssetsInSubdirectories.xcassets"]
+
+        // When
+        let (output, error) = try runHexcode(arguments: arguments)
+
+        // Then
+        XCTAssertEqual(output, "No duplicates found\n")
+        XCTAssertEqual(error, "")
+    }
+
+    func test_hexcode_findDuplicates_inDicectoryWithoutColorAssets_outputsNoDuplicatesFoundMessage() throws {
+        // Given
+        let arguments = ["find-duplicates", "--directory=\(resourcePath)/FakeContentFolder"]
+
+        // When
+        let (output, error) = try runHexcode(arguments: arguments)
+
+        // Then
+        XCTAssertEqual(output, "No duplicates found\n")
+        XCTAssertEqual(error, "")
     }
 }
 

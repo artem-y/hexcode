@@ -13,20 +13,38 @@ A tool that finds Xcode color assets by their hex codes. The idea behind this to
 ### ⚠️Disclaimer:
 For now, the tool only supports searching for exact values of color components as ints, floats or hexadecimals, without conversion between settings like content type (sRGB, Display P3, Gray Gamma 2.2 etc.), and ignoring some other settings like Gamut etc.  
 ## Usage
-The tool can be used like this from terminal:
+By default, the tool can be used from the terminal to search for matches to a given color code:
 ```
 hexcode #ffa500
 ```
 ...where `#ffa500` is a hex color code, with or without `#`, case-insensitive.  
 
-This way `hexcode` will recursively search for the color assets matching the hex rgb value, starting from current directory. The output will be one or more matching color set names, or a message notifying that it haven't found an asset with the given color. The command also has some very simple error handling and might exit with error.  
+When used this way, `hexcode` will recursively search for the color assets matching the hex rgb value, starting from the current directory. The output will be one or more matching color set names, or a message in case it haven't found an asset with the given color. Color names include path to their color asset, relative to the project. The command also has some very simple error handling and might exit with error.  
 More arguments and options will be added in the future with new features, they can be found using the `--help` flag.  
-#### Examples
+#### Default usage examples
 Color found:  
-<img width="570" alt="hexcode_usage_color_found" src="https://github.com/artem-y/hexcode/assets/52959979/708ea8d5-b38a-4c69-813b-a987a28d4242">  
+<img width="568" alt="hexcode_usage_color_found_1" src="https://github.com/user-attachments/assets/5a25b195-c981-4048-8b4b-e17b8df10a25" />
 
 Color not found:  
-<img width="570" alt="hexcode_usage_no_such_color" src="https://github.com/artem-y/hexcode/assets/52959979/77a36d4c-9480-4603-9ae2-8a6bce410a4e">
+<img width="570" alt="hexcode_usage_no_such_color" src="https://github.com/artem-y/hexcode/assets/52959979/77a36d4c-9480-4603-9ae2-8a6bce410a4e">  
+
+### Find Duplicates
+Hexcode can also check a project or a directory for duplicated color assets.
+```zsh
+hexcode find-duplicates
+```
+Output example when there are duplicates:
+```
+#24658F MyProject/Assets.xcassets/AccentColor
+#24658F MyProject/Colors.xcassets/defaultAccent
+--
+#999999 MyProject/Assets.xcassets/appColor/gray
+#999999 MyProject/Colors.xcassets/neutralGray
+```
+Output when duplicates not found:
+```
+No duplicates found
+```
 
 ## Installation
 1. Clone the repository to your machine

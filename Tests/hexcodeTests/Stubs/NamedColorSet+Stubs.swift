@@ -36,6 +36,11 @@ extension NamedColorSet {
         colorSet: .Universal.Multiple.defaultText
     )
 
+    static let brandBlackColorHex: Self = NamedColorSet(
+        name: "brandBlackColorHex",
+        colorSet: .Universal.Singular.brandBlack
+    )
+
     static let cyanColorHex: Self = NamedColorSet(
         name: "cyanColorHex",
         colorSet: .Universal.Multiple.cyan

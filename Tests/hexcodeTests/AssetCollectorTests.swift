@@ -83,16 +83,20 @@ final class AssetCollectorTests: XCTestCase {
         let otherColorsDir = catalogPath + "/OtherColors"
         setMockDirectory(at: otherColorsDir, with: ["more_colors", "greenColorHex.colorset"])
         setMockAsset(at: "\(otherColorsDir)/greenColorHex.colorset", with: ColorSetJSON.green)
+        var greenColorHex: NamedColorSet = .greenColorHex
+        greenColorHex.name = "OtherColors/greenColorHex"
 
         let moreColorsDir = otherColorsDir + "/more_colors"
         setMockDirectory(at: moreColorsDir, with: ["blueColorHex.colorset"])
         setMockAsset(at: "\(moreColorsDir)/blueColorHex.colorset", with: ColorSetJSON.blue)
+        var blueColorHex: NamedColorSet = .blueColorHex
+        blueColorHex.name = "OtherColors/more_colors/blueColorHex"
 
         // When
         let assets = try await sut.collectAssets(in: catalogPath)
 
         // Then
-        XCTAssertEqual(assets, [.blueColorHex, .greenColorHex, .redColorHex])
+        XCTAssertEqual(assets, [greenColorHex, blueColorHex, .redColorHex])
     }
 }
 

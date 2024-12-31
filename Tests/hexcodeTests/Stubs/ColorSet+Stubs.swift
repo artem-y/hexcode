@@ -7,6 +7,7 @@ extension ColorSet {
         enum Singular {
             static let white = makeColorSet(red: "0xFF", green: "0xFF", blue: "0xFF")
             static let black = makeColorSet(red: "0x00", green: "0x00", blue: "0x00")
+            static let brandBlack = makeColorSet(red: "0x17", green: "0x17", blue: "0x17")
             static let red = makeColorSet(red: "0xFF", green: "0x00", blue: "0x00")
             static let green = makeColorSet(red: "0x00", green: "0xFF", blue: "0x00")
             static let blue = makeColorSet(red: "0x00", green: "0x00", blue: "0xFF")
