@@ -227,4 +227,72 @@ final class ColorFinderTests: XCTestCase {
         AssertEmpty(colors)
     }
 
+    // MARK: - Test performance
+
+#if !CI
+    func test_performance_findDuplicates_measureSpeed() {
+        // Given
+        let repeatingColorSets: [NamedColorSet] = Array(repeating: .blueColorHex, count: 10)
+        + Array(repeating: .redColorHex, count: 10)
+        + Array(repeating: .greenColorHex, count: 10)
+        + Array(repeating: .blackColorHex, count: 10)
+        + Array(repeating: .whiteColorHex, count: 10)
+        + Array(repeating: .cyanColorHex, count: 10)
+        + Array(repeating: .brandBlackColorHex, count: 10)
+        + Array(repeating: .defaultTextColorHex, count: 10)
+        + Array(repeating: .sunflowerColorHex, count: 10)
+        + Array(repeating: .cyanColorHex, count: 10)
+
+        let allDifferentColorSets: [NamedColorSet] = (0..<255).map {
+            NamedColorSet(
+                name: "\($0) colorset",
+                colorSet: ColorSet(
+                    colors: [
+                        ColorAsset(
+                            color: .init(
+                                colorSpace: .srgb,
+                                components: .init(
+                                    alpha: "0xFF",
+                                    red: String(format: "0x%02X", $0),
+                                    green: "0x00",
+                                    blue: "0xFF"
+                                )
+                            ),
+                            idiom: .iPhone
+                        )
+                    ],
+                    info: .init(author: "author", version: 1.0)
+                )
+            )
+        }
+
+        var repeatingColorSetResults: [String: [String]] = [:]
+        var allDifferentColorSetResults: [String: [String]] = [:]
+
+        // Then
+        self.measure {
+            // When
+            repeatingColorSetResults = sut.findDuplicates(in: repeatingColorSets)
+            allDifferentColorSetResults = sut.findDuplicates(in: allDifferentColorSets)
+        }
+
+        // Then
+        XCTAssertEqual(
+            repeatingColorSetResults,
+            [
+                "000000": Array(repeating: "blackColorHex", count: 10),
+                "FFFFFF": Array(repeating: "whiteColorHex", count: 10),
+                "FF0000": Array(repeating: "redColorHex", count: 10),
+                "00FF00": Array(repeating: "greenColorHex", count: 10),
+                "E7E7E7": Array(repeating: "defaultTextHex (Dark)", count: 10),
+                "F4EA2F": Array(repeating: "sunflowerHex (Dark)", count: 10),
+                "00FFFF": Array(repeating: "cyanColorHex", count: 20),
+                "0000FF": Array(repeating: "blueColorHex", count: 10),
+                "171717": Array(repeating: "brandBlackColorHex", count: 10) + Array(repeating: "defaultTextHex (Any, Light)", count: 10),
+                "E8DE2A": Array(repeating: "sunflowerHex (Any)", count: 10)
+            ]
+        )
+        AssertEmpty(allDifferentColorSetResults)
+    }
+#endif
 }
