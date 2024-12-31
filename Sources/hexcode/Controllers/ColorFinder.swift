@@ -27,11 +27,8 @@ final class ColorFinder: ColorFinding {
                 guard !appearances.isEmpty else {
                     return nil
                 }
-                guard appearances.count < colors.count else {
-                    return namedSet.name
-                }
 
-                return namedSet.name + " (\(joined(appearances)))"
+                return makeColorName(from: appearances, of: namedSet)
             }
     }
 
@@ -41,54 +38,51 @@ final class ColorFinder: ColorFinding {
         let lastColorSetIndex = colorSets.count - 1
 
         for currentColorSetIndex in 0...lastColorSetIndex {
-            let colorSet = colorSets[currentColorSetIndex]
-            let colors = colorSet.colorSet.colors
-            let nextIndex = currentColorSetIndex + 1
+            let currentColorSet = colorSets[currentColorSetIndex]
+            let currentColors = currentColorSet.colorSet.colors
+            let nextColorSetIndex = currentColorSetIndex + 1
 
-            for color in colors {
-                let rgbHex = color.color.rgbHex
+            for currentColor in currentColors {
+                let rgbHex = currentColor.color.rgbHex
 
                 if duplicates.keys.contains(rgbHex) {
                     continue
                 }
-                
+
                 var colorNames: [String] = []
 
-                for otherColor in colorSets[nextIndex...] {
-                    let appearanceNames = findAppearances(
+                for otherColorSet in colorSets[nextColorSetIndex...] {
+                    let otherColorSetAppearances = findAppearances(
                         for: rgbHex,
-                        in: otherColor.colorSet.colors
+                        in: otherColorSet.colorSet.colors
                     )
 
-                    if appearanceNames.isEmpty {
+                    if otherColorSetAppearances.isEmpty {
                         continue
                     }
 
-                    var name = otherColor.name
-
-                    if appearanceNames.count < otherColor.colorSet.colors.count {
-                        name += " (\(joined(appearanceNames)))"
-                    }
-
+                    let name = makeColorName(
+                        from: otherColorSetAppearances,
+                        of: otherColorSet
+                    )
                     colorNames.append(name)
                 }
 
+                // If at least one duplicate found, add the searched name too
                 if !colorNames.isEmpty {
                     let currentColorSetAppearances = findAppearances(
                         for: rgbHex,
-                        in: colors
+                        in: currentColors
                     )
                     
                     if currentColorSetAppearances.isEmpty {
                         break
                     }
 
-                    var currentColorSetName = colorSet.name
-
-                    if currentColorSetAppearances.count < colors.count {
-                        currentColorSetName += " (\(joined(currentColorSetAppearances)))"
-                    }
-
+                    let currentColorSetName = makeColorName(
+                        from: currentColorSetAppearances,
+                        of: currentColorSet
+                    )
                     colorNames.append(currentColorSetName)
 
                     if duplicates[rgbHex] == nil {
@@ -131,5 +125,13 @@ extension ColorFinder {
 
     private func joined(_ appearances: [String]) -> String {
         appearances.joined(separator: ", ")
+    }
+
+    private func makeColorName(from appearances: [String], of namedColorSet: NamedColorSet) -> String {
+        if appearances.count < namedColorSet.colorSet.colors.count {
+            return "\(namedColorSet.name) (\(joined(appearances)))"
+        } else {
+            return namedColorSet.name
+        }
     }
 }
