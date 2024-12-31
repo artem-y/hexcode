@@ -212,6 +212,18 @@ final class HexcodeEndToEndTests: XCTestCase {
         XCTAssertEqual(output, "No duplicates found\n")
         XCTAssertEqual(error, "")
     }
+
+    func test_hexcode_findDuplicates_inDicectoryWithoutColorAssets_outputsNoDuplicatesFoundMessage() throws {
+        // Given
+        let arguments = ["find-duplicates", "--directory=\(resourcePath)/FakeContentFolder"]
+
+        // When
+        let (output, error) = try runHexcode(arguments: arguments)
+
+        // Then
+        XCTAssertEqual(output, "No duplicates found\n")
+        XCTAssertEqual(error, "")
+    }
 }
 
 // MARK: - Private

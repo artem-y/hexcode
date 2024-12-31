@@ -35,9 +35,9 @@ final class ColorFinder: ColorFinding {
     func findDuplicates(in colorSets: [NamedColorSet]) -> [String: [String]] {
 
         var duplicates: [String: [String]] = [:]
-        let lastColorSetIndex = colorSets.count - 1
+        let colorSetCount = colorSets.count
 
-        for currentColorSetIndex in 0...lastColorSetIndex {
+        for currentColorSetIndex in 0..<colorSetCount {
             let currentColorSet = colorSets[currentColorSetIndex]
             let currentColors = currentColorSet.colorSet.colors
             let nextColorSetIndex = currentColorSetIndex + 1
