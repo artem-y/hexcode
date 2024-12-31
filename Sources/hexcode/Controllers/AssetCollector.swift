@@ -105,8 +105,8 @@ extension AssetCollector {
 
     private func determineContentType(at path: String) -> PathContentType? {
         var isDirectory: ObjCBool = false
-        guard fileManager.fileExists(atPath: path, isDirectory: &isDirectory) else { return nil }
-        guard isDirectory.boolValue else { return .file }
+        guard fileManager.fileExists(atPath: path, isDirectory: &isDirectory),
+              isDirectory.boolValue else { return .file }
 
         if !path.hasSuffix(".colorset"), let subpaths = try? contents(at: path) {
             return .otherDirectory(subpaths: subpaths)
@@ -128,8 +128,8 @@ extension AssetCollector {
 
     private func readColorSet(at path: String) -> ColorSet? {
         let path = path + "/Contents.json"
-        guard let fileData = fileManager.contents(atPath: path) else { return nil }
-        guard let colorSet = try? JSONDecoder().decode(ColorSet.self, from: fileData) else { return nil }
+        guard let fileData = fileManager.contents(atPath: path),
+              let colorSet = try? JSONDecoder().decode(ColorSet.self, from: fileData) else { return nil }
         return colorSet
     }
 }

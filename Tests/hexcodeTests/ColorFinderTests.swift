@@ -195,4 +195,36 @@ final class ColorFinderTests: XCTestCase {
         // Then
         AssertEmpty(colors)
     }
+
+    func test_findDuplicates_inColorSetWithInvalidColors_returnsEmptyDictionary() {
+        // Given
+        let invalidColor = ColorSet(
+            colors: [
+                .init(
+                    color: .init(
+                        colorSpace: .srgb,
+                        components: .init(
+                            alpha: "0",
+                            red: "r",
+                            green: "g",
+                            blue: "b"
+                        )
+                    ),
+                    idiom: .iPhone
+                )
+            ],
+            info: .init(author: "-", version: 1.0)
+        )
+        let colorSets: [NamedColorSet] = [
+            .init(name: "one", colorSet: invalidColor),
+            .init(name: "two", colorSet: invalidColor),
+        ]
+
+        // When
+        let colors = sut.findDuplicates(in: colorSets)
+
+        // Then
+        AssertEmpty(colors)
+    }
+
 }

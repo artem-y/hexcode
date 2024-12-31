@@ -45,7 +45,7 @@ final class ColorFinder: ColorFinding {
             for currentColor in currentColors {
                 let rgbHex = currentColor.color.rgbHex
 
-                if duplicates.keys.contains(rgbHex) {
+                if rgbHex.isEmpty || duplicates.keys.contains(rgbHex) {
                     continue
                 }
 
@@ -74,10 +74,6 @@ final class ColorFinder: ColorFinding {
                         for: rgbHex,
                         in: currentColors
                     )
-                    
-                    if currentColorSetAppearances.isEmpty {
-                        break
-                    }
 
                     let currentColorSetName = makeColorName(
                         from: currentColorSetAppearances,
