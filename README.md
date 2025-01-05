@@ -67,10 +67,15 @@ Or you can just run it as an executable Swift package [without installation](#ru
 ### Using make:
 From the root of the repository, run the following command:
 ```
-sudo make install
+make install
 ```
-If you want to install it into a directory other than default `/usr/local/bin`, replace it in the `Makefile` with your target directory.
-Just make sure it's added to the PATH.
+With no in stallation path provided, it will try to install `hexcode` to where it's already installed. If this is the first-time installation, the default path is `/usr/local/bin`.  
+
+There's also an option to provide a custom installation path:
+```
+make install </custom/installation/path>
+```
+Just make sure it's added to the PATH or sourced if you want the command to be visible from anywhere without typing the full path to it. Depending on the installation path and current user, `make install` command might need `sudo` access.
 ### Running without installation:
 From the `hexcode` directory (or passing it as `--package-path`), the command can be run as executable package without previous installation, for example:
 ```
