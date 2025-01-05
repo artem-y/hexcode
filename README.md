@@ -69,7 +69,7 @@ From the root of the repository, run the following command:
 ```
 make install
 ```
-With no in stallation path provided, it will try to install `hexcode` to where it's already installed. If this is the first-time installation, the default path is `/usr/local/bin`.  
+With no installation path provided, it will try to install `hexcode` to where it's already installed. If this is the first-time installation, the default path is `/usr/local/bin`.  
 
 There's also an option to provide a custom installation path:
 ```
