@@ -1,5 +1,17 @@
 .PHONY: install
 install:
-	swift build -q -c release
-	install .build/release/hexcode /usr/local/bin/hexcode
+	@INSTALLATION_PATH=$(if $(filter install, $(MAKECMDGOALS)), $(word 2, $(MAKECMDGOALS)), $(which hexcode)) ; \
+	if [ -z "$${INSTALLATION_PATH}" ]; then \
+		INSTALLATION_PATH=/usr/local/bin/hexcode ; \
+	fi && \
+	swift build -q -c release && \
+	install .build/release/hexcode "$${INSTALLATION_PATH}" && \
+	echo "Installed at $${INSTALLATION_PATH}" 
 
+.PHONY: uninstall
+uninstall:
+	@rm $$(which hexcode)
+
+.PHONY: clean
+clean:
+	@rm -rf .build
