@@ -1,6 +1,6 @@
 .PHONY: install
 install:
-	@INSTALLATION_PATH=$$(which hexcode) ; \
+	@INSTALLATION_PATH=$(if $(filter install, $(MAKECMDGOALS)), $(word 2, $(MAKECMDGOALS)), $(which hexcode)) ; \
 	if [ -z "$${INSTALLATION_PATH}" ]; then \
 		INSTALLATION_PATH=/usr/local/bin/hexcode ; \
 	fi && \
