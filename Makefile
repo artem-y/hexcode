@@ -7,3 +7,11 @@ install:
 	swift build -q -c release && \
 	install .build/release/hexcode "$${INSTALLATION_PATH}" && \
 	echo "Installed at $${INSTALLATION_PATH}" 
+
+.PHONY: uninstall
+uninstall:
+	@rm $$(which hexcode)
+
+.PHONY: clean
+clean:
+	@rm -rf .build
