@@ -175,6 +175,22 @@ final class HexcodeAppTests: XCTestCase {
         XCTAssertEqual(mocks.outputs, ["No \(blackHexStub) color found"])
     }
 
+    func test_runFindColor_withTildaInPath_expandsTildaToFilePath() async throws {
+        // Given
+        let homeDir = try XCTUnwrap(
+            ProcessInfo.processInfo.environment["HOME"]
+        )
+
+        // When
+        try await sut.runFindColor(colorHex: blackHexStub, in: "~/TestProject")
+
+
+        // Then
+        XCTAssertEqual(mocks.assetCollector.calls, [
+            .collectAssetsIn(directory: "\(homeDir)/TestProject")
+        ])
+    }
+
     // MARK: Test runFindDuplicates
 
     func test_runFindDuplicates_whenSingleDuplicateFound_outputsDuplicateHexAndAssetNames() async throws {
@@ -224,6 +240,22 @@ final class HexcodeAppTests: XCTestCase {
             "#FFFFFF black",
             "#FFFFFF darkestHex",
             "#FFFFFF text (Any, Light)",
+        ])
+    }
+
+    func test_runFindDuplicates_withTildaInPath_expandsTildaToFilePath() async throws {
+        // Given
+        let homeDir = try XCTUnwrap(
+            ProcessInfo.processInfo.environment["HOME"]
+        )
+
+        // When
+        try await sut.runFindDuplicates(in: "~/documents/project")
+
+
+        // Then
+        XCTAssertEqual(mocks.assetCollector.calls, [
+            .collectAssetsIn(directory: "\(homeDir)/documents/project")
         ])
     }
 }
