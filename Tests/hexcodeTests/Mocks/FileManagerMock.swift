@@ -10,6 +10,7 @@ final class FileManagerMock: FileManager {
     enum Call: Equatable {
         case getCurrentDirectoryPath
         case setCurrentDirectoryPath(String)
+        case getHomeDirectoryForCurrentUser
         case fileExists(path: String, isDirectory: UnsafeMutablePointer<ObjCBool>?)
         case contentsOfDirectory(path: String)
         case contents(path: String)
@@ -17,6 +18,7 @@ final class FileManagerMock: FileManager {
 
     struct CallResults {
         var currentDirectoryPath: String = ""
+        var homeDirectoryForCurrentUser: URL = .init(filePath: "")
         var fileExistsAtPath: [String: PathContent] = [:]
         var contentsOfDirectory: [String: Result<[String], Error>] = [:]
         var contentsAtPath: [String: Data] = [:]
@@ -57,6 +59,13 @@ extension FileManagerMock {
 
         set {
             calls.append(.setCurrentDirectoryPath(newValue))
+        }
+    }
+
+    override var homeDirectoryForCurrentUser: URL {
+        get {
+            calls.append(.getHomeDirectoryForCurrentUser)
+            return results.homeDirectoryForCurrentUser
         }
     }
 

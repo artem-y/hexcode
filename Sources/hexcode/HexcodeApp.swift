@@ -76,6 +76,9 @@ final class HexcodeApp {
 
 extension HexcodeApp {
     private func expandTilde(_ path: String) -> String {
-        (path as NSString).expandingTildeInPath
+        path.replacingOccurrences(
+            of: "~",
+            with: fileManager.homeDirectoryForCurrentUser.relativePath
+        )
     }
 }
