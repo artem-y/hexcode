@@ -27,7 +27,7 @@ final class HexcodeApp {
     ///   - directory: Optional custom directory from user input. Defaults to current directory.
     /// - throws: All unhandled errors that can be thrown out to standard output.
     func runFindColor(colorHex: String, in directory: String? = nil) async throws {
-        let directory = directory ?? fileManager.currentDirectoryPath
+        let directory = directory.map(expandTilde) ?? fileManager.currentDirectoryPath
         let colorAssets = try await assetCollector.collectAssets(in: directory)
         let foundColors = colorFinder.find(colorHex, in: colorAssets)
 
@@ -39,12 +39,11 @@ final class HexcodeApp {
         foundColors.forEach { output($0) }
     }
 
-
     /// Entry point for the `find-duplicates` subcommand logic.
     /// - Parameter directory: Optional custom directory from user input. Defaults to current directory.
     /// - throws: All unhandled errors that can be thrown out to standard output.
     func runFindDuplicates(in directory: String? = nil) async throws {
-        let directory = directory ?? fileManager.currentDirectoryPath
+        let directory = directory.map(expandTilde) ?? fileManager.currentDirectoryPath
         let colorAssets = try await assetCollector.collectAssets(in: directory)
         let foundDuplicates = colorFinder.findDuplicates(in: colorAssets)
 
@@ -70,5 +69,16 @@ final class HexcodeApp {
                     hasMoreThanOneDuplicate = true
                 }
             }
+    }
+}
+
+// MARK: - Private
+
+extension HexcodeApp {
+    private func expandTilde(_ path: String) -> String {
+        path.replacingOccurrences(
+            of: "~",
+            with: fileManager.homeDirectoryForCurrentUser.relativePath
+        )
     }
 }

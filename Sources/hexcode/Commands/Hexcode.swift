@@ -10,7 +10,7 @@ struct Hexcode: AsyncParsableCommand {
                   by their hexadecimal codes.
                   """,
         usage: "hexcode <color-hex> [--directory <directory>]",
-        version: "hexcode 0.2.0",
+        version: "hexcode 0.2.1",
         subcommands: [
             FindColor.self,
             FindDuplicates.self,

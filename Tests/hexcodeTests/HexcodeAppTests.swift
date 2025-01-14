@@ -175,6 +175,25 @@ final class HexcodeAppTests: XCTestCase {
         XCTAssertEqual(mocks.outputs, ["No \(blackHexStub) color found"])
     }
 
+    func test_runFindColor_withTildeInPath_expandsTildaToFilePath() async throws {
+        // Given
+        let homeDir = "/home/dir"
+        let homeURL = try XCTUnwrap(URL(filePath: homeDir))
+        mocks.fileManager.results.homeDirectoryForCurrentUser = homeURL
+
+        // When
+        try await sut.runFindColor(colorHex: blackHexStub, in: "~/TestProject")
+
+
+        // Then
+        XCTAssertEqual(mocks.fileManager.calls, [
+            .getHomeDirectoryForCurrentUser
+        ])
+        XCTAssertEqual(mocks.assetCollector.calls, [
+            .collectAssetsIn(directory: "\(homeDir)/TestProject")
+        ])
+    }
+
     // MARK: Test runFindDuplicates
 
     func test_runFindDuplicates_whenSingleDuplicateFound_outputsDuplicateHexAndAssetNames() async throws {
@@ -224,6 +243,25 @@ final class HexcodeAppTests: XCTestCase {
             "#FFFFFF black",
             "#FFFFFF darkestHex",
             "#FFFFFF text (Any, Light)",
+        ])
+    }
+
+    func test_runFindDuplicates_withTildeInPath_expandsTildaToFilePath() async throws {
+        // Given
+        let homeDir = "/Users/user"
+        let homeURL = try XCTUnwrap(URL(string: homeDir))
+        mocks.fileManager.results.homeDirectoryForCurrentUser = homeURL
+
+        // When
+        try await sut.runFindDuplicates(in: "~/documents/project")
+
+
+        // Then
+        XCTAssertEqual(mocks.fileManager.calls, [
+            .getHomeDirectoryForCurrentUser
+        ])
+        XCTAssertEqual(mocks.assetCollector.calls, [
+            .collectAssetsIn(directory: "\(homeDir)/documents/project")
         ])
     }
 }
