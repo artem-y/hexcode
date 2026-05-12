@@ -12,11 +12,23 @@ final class AssetCollectorTests: XCTestCase {
 
     override func setUp() {
         mocks = Mocks()
-        sut = SUT()
-        sut.fileManager = mocks.fileManager
+        sut = SUT(fileManager: mocks.fileManager)
     }
 
     // MARK: - Tests
+
+    func test_init_withDefaultParameters_setsFileManagerToDefault() async throws {
+        // Given, When
+        sut = SUT()
+
+        // Then
+        XCTAssertTrue(sut.fileManager === FileManager.default)
+    }
+
+    func test_init_withNonDefaultFileManagerPassed_setsTheGivenFileManager() async throws {
+        // Then
+        XCTAssertTrue(sut.fileManager === mocks.fileManager)
+    }
 
     func test_collectAssets_inAssetCatalogDirectory_findsAssets() async throws {
         // Given

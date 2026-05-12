@@ -17,24 +17,6 @@ final class HexcodeAppTests: XCTestCase {
         sut = makeSUT()
     }
 
-    // MARK: - Test init
-
-    func test_init_withoutFileManager_passesDefaultFileManagerIntoAssetCollector() {
-        // When
-        _ = SUT(assetCollector: mocks.assetCollector)
-
-        // Then
-        XCTAssertEqual(mocks.assetCollector.calls, [.setFileManager(.default)])
-    }
-
-    func test_init_passingFileManager_passesDefaultFileManagerIntoAssetCollector() {
-        // When
-        _ = SUT(fileManager: mocks.fileManager, assetCollector: mocks.assetCollector)
-
-        // Then
-        XCTAssertEqual(mocks.assetCollector.calls, [.setFileManager(mocks.fileManager)])
-    }
-
     // MARK: - Test runFindColor
 
     func test_runFindColor_withoutDirectory_runsInCurrentDirectoryFromFileManager() async throws {
