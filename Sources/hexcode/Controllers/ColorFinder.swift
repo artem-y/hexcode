@@ -81,9 +81,7 @@ final class ColorFinder: ColorFinding {
                     )
                     colorNames.append(currentColorSetName)
 
-                    if duplicates[rgbHex] == nil {
-                        duplicates[rgbHex] = colorNames.sorted()
-                    }
+                    duplicates[rgbHex] = colorNames.sorted()
                 }
 
             }

@@ -59,7 +59,6 @@ extension AssetCollector {
     private func findColorSets(
         at paths: [String],
         in searchRootDirectory: String,
-        alreadyFoundColorSets: [NamedColorSet] = []
     ) async -> [NamedColorSet] {
         let colorSets = await withTaskGroup(of: [NamedColorSet].self) { group in
             for path in paths {
@@ -80,7 +79,6 @@ extension AssetCollector {
                         let colorSetsFromSubdirectory = await self.findColorSets(
                             at: fullSubpaths,
                             in: searchRootDirectory,
-                            alreadyFoundColorSets: alreadyFoundColorSets
                         )
                         return colorSetsFromSubdirectory
 
@@ -90,7 +88,7 @@ extension AssetCollector {
                 }
             }
 
-            return await group.reduce(alreadyFoundColorSets, +)
+            return await group.reduce([], +)
         }
 
         return colorSets
