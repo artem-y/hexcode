@@ -8,17 +8,14 @@ final class HexcodeApp {
 
     init(
         fileManager: FileManager = .default,
-        assetCollector: AssetCollecting = AssetCollector(),
+        assetCollector: AssetCollecting? = nil,
         colorFinder: ColorFinding = ColorFinder(),
         outputFunction: @escaping ((String) -> Void) = { print($0) }
     ) {
         self.fileManager = fileManager
         self.colorFinder = colorFinder
         self.output = outputFunction
-
-        var assetCollector = assetCollector
-        assetCollector.fileManager = fileManager
-        self.assetCollector = assetCollector
+        self.assetCollector = assetCollector ?? AssetCollector(fileManager: fileManager)
     }
 
     /// Entry point for the default `find-color` subcommand logic.

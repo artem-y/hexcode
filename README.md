@@ -5,7 +5,7 @@ A tool that finds Xcode color assets by their hex codes. The idea behind this to
 
 <p align="center">
     <br />
-    <img alt-text="Swift Version" src="https://img.shields.io/badge/Swift-5.9-orange.svg">
+    <img alt-text="Swift Version" src="https://img.shields.io/badge/Swift-6.2-orange.svg">
     <a href="https://github.com/artem-y/hexcode/releases/latest"><img alt-text="GitHub Release" src="https://img.shields.io/github/v/release/artem-y/hexcode"></a>
     <img alt-text="Minimal macOS Version" src="https://img.shields.io/badge/macOS-13%2B-e08416">
 </p>

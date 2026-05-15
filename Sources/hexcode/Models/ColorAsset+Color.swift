@@ -50,16 +50,11 @@ extension ColorAsset.Color {
     }
 
     private func isValidHexComponent(_ component: String) -> Bool {
-        matchRegex(component, pattern: "0x[0-9a-fA-F]{2}")
-    }
-
-    private func matchRegex(_ string: String, pattern: String) -> Bool {
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return false }
-        let foundMatches = regex.matches(
-            in: string,
+        let foundMatches = Self.hexRegex.matches(
+            in: component,
             range: NSRange(
                 location: 0,
-                length: string.count
+                length: component.count
             )
         )
         return foundMatches.count == 1
@@ -87,6 +82,9 @@ extension ColorAsset.Color {
     private static let floatConversionMultiplier: Float = 255.2
     private static let hexFormatString = "%02X"
 
+    private static let hexRegex = try! NSRegularExpression(
+        pattern: "0x[0-9a-fA-F]{2}"
+    )
     private static let formatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.decimalSeparator = "."

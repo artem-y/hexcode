@@ -2,8 +2,6 @@ import Foundation
 
 /// Finds color asset folders and converts them to Swift objects.
 protocol AssetCollecting {
-    /// `FileManager` instance used for the search.
-    var fileManager: FileManager { get set }
     /// Finds all color sets in the directory and its subdirectories.
     /// - parameter directory: Path to the directory to search for color sets.
     /// - throws: Errors when valid directory not found at given path or can't read content.
@@ -11,8 +9,14 @@ protocol AssetCollecting {
     func collectAssets(in directory: String) async throws -> [NamedColorSet]
 }
 
-final class AssetCollector: AssetCollecting {
-    var fileManager: FileManager = .default
+final class AssetCollector: AssetCollecting, Sendable {
+    /// Judging from Apple's documentation, the use of the default shared `FileManager` from multiple threads is fine.
+    nonisolated(unsafe)
+    let fileManager: FileManager
+
+    init(fileManager: FileManager = .default) {
+        self.fileManager = fileManager
+    }
 
     func collectAssets(in directory: String) async throws -> [NamedColorSet] {
         var isDirectory: ObjCBool = false
@@ -55,7 +59,6 @@ extension AssetCollector {
     private func findColorSets(
         at paths: [String],
         in searchRootDirectory: String,
-        alreadyFoundColorSets: [NamedColorSet] = []
     ) async -> [NamedColorSet] {
         let colorSets = await withTaskGroup(of: [NamedColorSet].self) { group in
             for path in paths {
@@ -64,7 +67,7 @@ extension AssetCollector {
 
                     switch contentAtPath {
                     case .colorSet(let colorSet):
-                        return self.makeNamedColorset(
+                        return Self.makeNamedColorset(
                             from: colorSet,
                             at: path,
                             in: searchRootDirectory
@@ -76,7 +79,6 @@ extension AssetCollector {
                         let colorSetsFromSubdirectory = await self.findColorSets(
                             at: fullSubpaths,
                             in: searchRootDirectory,
-                            alreadyFoundColorSets: alreadyFoundColorSets
                         )
                         return colorSetsFromSubdirectory
 
@@ -86,13 +88,13 @@ extension AssetCollector {
                 }
             }
 
-            return await group.reduce(alreadyFoundColorSets, +)
+            return await group.reduce([], +)
         }
 
         return colorSets
     }
 
-    private func makeNamedColorset(
+    private static func makeNamedColorset(
         from colorSet: ColorSet,
         at path: String,
         in searchRootDirectory: String
@@ -119,7 +121,7 @@ extension AssetCollector {
         try fileManager.contentsOfDirectory(atPath: directory)
     }
 
-    private func getAssetName(from path: String, in searchRootDirectory: String) -> String {
+    private static func getAssetName(from path: String, in searchRootDirectory: String) -> String {
         let trimmedPath = String(path.trimmingPrefix(searchRootDirectory + "/"))
         return URL(filePath: trimmedPath)
             .deletingPathExtension()

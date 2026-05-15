@@ -45,7 +45,7 @@ final class ColorFinder: ColorFinding {
             for currentColor in currentColors {
                 let rgbHex = currentColor.color.rgbHex
 
-                if rgbHex.isEmpty || duplicates.keys.contains(rgbHex) {
+                if rgbHex.isEmpty || duplicates[rgbHex] != nil {
                     continue
                 }
 
@@ -81,9 +81,7 @@ final class ColorFinder: ColorFinding {
                     )
                     colorNames.append(currentColorSetName)
 
-                    if duplicates[rgbHex] == nil {
-                        duplicates[rgbHex] = colorNames.sorted()
-                    }
+                    duplicates[rgbHex] = colorNames.sorted()
                 }
 
             }
